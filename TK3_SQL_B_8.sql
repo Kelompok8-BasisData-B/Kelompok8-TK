@@ -3,6 +3,7 @@ CREATE TABLE PENGGUNA(
     username VARCHAR(50) PRIMARY KEY,
     password VARCHAR(50) NOT NULL,
     id_tayangan UUID,
+    negara_asal VARCHAR(50) NOT NULL,
     FOREIGN KEY (id_tayangan) REFERENCES TAYANGAN (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -125,7 +126,7 @@ CREATE TABLE SERIES(
 
 -- FILM --
 CREATE TABLE FILM(
-    id_tayangan UUID,
+    id_tayangan UUID PRIMARY KEY,
     url_video_film VARCHAR(255) NOT NULL,
     release_date_film DATE NOT NULL,
     durasi_film INT NOT NULL DEFAULT 0,
@@ -197,14 +198,14 @@ CREATE TABLE TAYANGAN_TERUNDUH(
 );
 
 -- INSERT PENGGUNA --
-INSERT INTO PENGGUNA VALUES ('andi1234','pass1ABC','c789d4e6-dbdf-4d80-9d54-62e2c010effa'),
-	('budi5678','pass2DEF','8f4aba1f-aa11-4bb8-a4ff-abe37fe7d6af'),
-	('citra9012','pass3GHI','e3dec337-6afe-4959-a181-b85b4006f956'),
-	('dewi3456','pass4JKL','e0f1fc0c-02a7-494d-96ba-e9519326202a'),
-	('eko7890','pass5MNO','1fdc19f5-89e5-496c-b6e6-162fae666d96'),
-	('fani1234','pass6PQR','5b6ad3ce-8d1c-4f6d-8002-5a4aedf41859'),
-	('gita5678','pass7STU','ad291c00-061f-40ba-920c-8d59b9420d33'),
-	('hendra9012','pass8VWX','ad291c00-061f-40ba-920c-8d59b9420d33');
+INSERT INTO PENGGUNA VALUES ('andi1234','pass1ABC','c789d4e6-dbdf-4d80-9d54-62e2c010effa','Indonesia'),
+	('budi5678','pass2DEF','8f4aba1f-aa11-4bb8-a4ff-abe37fe7d6af','Indonesia'),
+	('citra9012','pass3GHI','e3dec337-6afe-4959-a181-b85b4006f956','Indonesia'),
+	('dewi3456','pass4JKL','e0f1fc0c-02a7-494d-96ba-e9519326202a','Indonesia'),
+	('eko7890','pass5MNO','1fdc19f5-89e5-496c-b6e6-162fae666d96','Indonesia'),
+	('fani1234','pass6PQR','5b6ad3ce-8d1c-4f6d-8002-5a4aedf41859','Indonesia'),
+	('gita5678','pass7STU','ad291c00-061f-40ba-920c-8d59b9420d33','Indonesia'),
+	('hendra9012','pass8VWX','ad291c00-061f-40ba-920c-8d59b9420d33','Indonesia');
 
 -- INSERT PAKET -- 
 INSERT INTO PAKET VALUES ('Basic',50000.0,'720p'),
