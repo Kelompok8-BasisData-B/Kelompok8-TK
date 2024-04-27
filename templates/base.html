@@ -8,12 +8,97 @@
     {% endblock meta %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-<body> 
-    {% block content %}
-    {% endblock content %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<body>
+  {% block content %}
+  {% endblock content %}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  {% block script %}{% comment %} include external js{% endcomment %}{% endblock %}
 </body>
+
+
 </html>
+
+<style>
+  body {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6f99c0;
+    text-align: left;
+    background-color: white;
+    --bs-primary-rgb: rgb(119 187 188);
+  }
+
+
+  .border-primary {
+    border-color: #6f99c0;
+  }
+
+  .navbar-light .bg-light {
+    background-color: white;
+    --bs-bg-opacity: 0
+  }
+
+  .nav-link {
+    color: #356369;
+  }
+
+  .text-primary {
+    color: #6f99c0 !important;
+  }
+
+  .btn-primary {
+    background-color: #6f99c0;;
+    --bs-btn-hover-bg: #93cdcd;
+    --bs-btn-hover-border-color: #93cdcd;
+    --bs-btn-border-color: #93cdcd !important;
+  }
+
+ 
+  .btn-primary:hover {
+    background-color: #93cdcd;
+  }
+
+  .btn-outline-primary {
+    --bs-btn-color: #356369;
+    --bs-btn-border-color: #6f99c0;;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #6f99c0;;
+    --bs-btn-hover-border-color: #6f99c0;;
+  }
+
+  .form-select {
+    border: 1px solid #212529;
+  }
+
+  .border-primary {
+    border-color: #ced4da;
+  }
+  a {
+    --bs-link-color: #fff;
+    text-decoration: none;
+  }
+  a:hover {
+    --bs-link-hover-color: #fff;
+    text-decoration: none;
+  }
+
+  .form-check-input:checked {
+    background-color: #506e8a;;
+  }
+
+  h1 {
+    font-weight: 700;
+  }
+
+  h2 {
+    font-weight: 700;
+    
+  }
+
+  h3 {
+    color: #f2f6fc;
+  }
+</style>
