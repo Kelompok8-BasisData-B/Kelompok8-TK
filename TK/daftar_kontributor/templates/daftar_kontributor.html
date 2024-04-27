@@ -1,0 +1,155 @@
+{% extends "base-tw.html" %}
+{% load static %}
+
+{% block meta %}
+<title>Daftar Kontributor</title>
+{% endblock meta %}
+
+{% block content %}
+<style>
+   .custom-scrollbar::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    /* Track */
+    .custom-scrollbar-white::-webkit-scrollbar-track {
+        background: white !important;
+        border-radius: 0px;
+    }
+    .custom-scrollbar-gray::-webkit-scrollbar-track {
+        background: rgb(209 213 219) !important;
+        border-radius: 0px;
+    }
+
+    /* Handle scrollbar*/
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+        border: 5px solid white;
+    }
+    .custom-scrollbar-white::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+        border: 5px solid white;
+    }
+    .custom-scrollbar-gray::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+        border: 5px solid rgb(209 213 219);
+    }
+
+    /* Handle on hover */
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    /* Handle on html */
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+    th {
+        background-color: #2986cc;
+        padding: 5px;
+        color: white;
+    }
+    td {
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+    }
+    table#subscriptionTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    table#subscriptionTable th,
+    table#subscriptionTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    table#subscriptionTable tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    table#subscriptionTable th {
+        background-color: #2986cc;
+        color: white;
+    }
+    select {
+        margin-bottom: 10px;
+    }
+    h1 {
+        text-align: center; 
+        font-weight: bold; 
+        font-size: 2rem; 
+    }
+</style>
+
+{% include "navbar.html" %}
+<div class="container">
+    <h1 style="margin-top: 100px;">DAFTAR KONTRIBUTOR</h1>
+    <div>
+        <select id="tipe-filter">
+            <option value="">Semua Tipe</option>
+            <option value="Pemain">Pemain</option>
+            <option value="Sutradara">Sutradara</option>
+            <option value="Penulis Skenario">Penulis Skenario</option>
+        </select>
+
+        <table id="subscriptionTable">
+            <thead>
+                    <tr>
+                    <th>Nama</th>
+                    <th>Tipe</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Kewarganegaraan</th>
+                    </tr>
+            </thead>
+        <tbody>
+                <tr>
+                    <td>John Doe</td>
+                    <td>Pemain</td>
+                    <td>Laki laki</td>
+                    <td>Indonesia</td>
+                </tr>
+                <tr>
+                    <td>Jane Doe</td>
+                    <td>Penulis Skenario</td>
+                    <td>Perempuan</td>
+                    <td>Malaysia</td>
+                </tr>
+                <tr>
+                    <td>Dawn Champlin</td>
+                    <td>Sutradara</td>
+                    <td>Laki laki</td>
+                    <td>South Georgia and the South Sandwich Islands</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+  
+<script>
+    const tipeFilter = document.getElementById("tipe-filter");
+    const contributorTable = document.getElementById("contributor-table");
+    const tableRows = Array.from(contributorTable.getElementsByTagName("tbody")[0].rows);
+    tipeFilter.addEventListener("change", () => {
+        const selectedType = tipeFilter.value;
+        tableRows.forEach(row => {
+            if (selectedType === "" || row.cells[1].textContent.trim() === selectedType) {
+            row.style.display = "";
+            } else {
+            row.style.display = "none";
+            }
+        });
+    });
+    tipeFilter.dispatchEvent(new Event("change"));
+</script>
+{% endblock content %}
