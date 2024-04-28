@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+     <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+<style>
+     .login {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+         gap: 20px;
+     }  
+</style>
+<div class = "login">
+
+     <h1>FORM LOGIN</h1>
+
+     <form method="POST" action="">
+          {% csrf_token %}
+          <table>
+               <tr>
+                    <td>Username: </td>
+                    <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+               </tr>
+                         
+               <tr>
+                    <td>Password: </td>
+                    <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+               </tr>
+
+               <tr>
+                    <td></td>
+                    <td><input type="submit" name="submit" value="MASUK"/></td> 
+               </tr>
+          </table>
+     </form>
+
+     {% if messages %}
+          <ul>
+               {% for message in messages %}
+                    <li>{{ message }}</li>
+               {% endfor %}
+          </ul>
+     {% endif %}     
+</div>
+
+{% endblock content %}
