@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('daftar-kontributor/', include('daftar_kontributor.urls')),
     path('langganan/', include('langganan.urls')),
-    path('authentication/', include('authentication.urls')),
+    path('', include('authentication.urls')),
 ]
