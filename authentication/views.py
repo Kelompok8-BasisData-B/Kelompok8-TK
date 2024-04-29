@@ -28,10 +28,11 @@ def login_view(request):
 class RegisterForm(forms.ModelForm):
      username = forms.CharField(max_length=50, required=True)
      password = forms.CharField(label='Password', widget=forms.PasswordInput)
+     negara_asal = forms.CharField(max_length=50, required=True)
 
      class Meta:
           model = User
-          fields = ('username', 'password')
+          fields = ('username', 'password', 'negara_asal')
 
 def register_view(request):
      form = RegisterForm()
