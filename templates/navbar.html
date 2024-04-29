@@ -10,7 +10,7 @@
                 <li><a href="/daftar-kontributor/main/" class="text-white hover:text-gray-300">Daftar Kontributor</a></li>
                 <li><a href="/langganan/main/" class="text-white hover:text-gray-300">Langganan</a></li>
                 <li><a href="" class="text-white hover:text-gray-300">Pemesanan Kamar</a></li>
-                <li class="bg-red-600 px-2 py-2 flex items-center justify-center rounded-sm"><a href="" class="text-white hover:text-gray-300 ">Logout</a></li>
+                <li class="bg-red-600 px-2 py-2 flex items-center justify-center rounded-sm"><a href="/authentication/landing/" class="text-white hover:text-gray-300 ">Logout</a></li>
             </ul>
         </div>
         <div class="px-4 block md:hidden"> <!-- Tampil di layar kecil (md dan yang lebih kecil) -->
@@ -28,7 +28,7 @@
             <li><a href="" class="block text-white py-2 px-4 hover:bg-blue-500">Daftar Kontributor</a></li>
             <li><a href="" class="block text-white py-2 px-4 hover:bg-blue-500">Reservasi Pengguna</a></li>
             <li><a href="" class="block text-white py-2 px-4 hover:bg-blue-500">Pemesanan Kamar</a></li>
-            <li><a href="" class="block text-white py-2 px-4 hover:bg-blue-500">Logout</a></li>
+            <li><a href="{% url 'authentication:logout' %}" class="block text-white py-2 px-4 hover:bg-blue-500">Logout</a></li>
         </ul>
     </div>
 </nav>
@@ -44,7 +44,7 @@
                 <li><a href="" class="text-white hover:text-gray-300">Kamar Hotel</a></li>
                 <li><a href="" class="text-white hover:text-gray-300">Fasilitas Hotel</a></li>
                 <li><a href="" class="text-white hover:text-gray-300">List Reservasi Hotel</a></li>
-                <li class="bg-red-600 px-2 py-2 flex items-center justify-center rounded-sm"><a href="/logout/" class="text-white hover:text-gray-300 ">Logout</a></li>
+                <li class="bg-red-600 px-2 py-2 flex items-center justify-center rounded-sm"><a href="{% url 'authentication:logout' %}" class="text-white hover:text-gray-300 ">Logout</a></li>
             </ul>
         </div>
         <div class="px-4 block md:hidden"> <!-- Tampil di layar kecil (md dan yang lebih kecil) -->
@@ -63,7 +63,7 @@
             <li><a href="" class="text-white hover:text-gray-300">Kamar Hotel</a></li>
             <li><a href="" class="text-white hover:text-gray-300">Fasilitas Hotel</a></li>
             <li><a href="" class="text-white hover:text-gray-300">List Reservasi Hotel</a></li>
-            <li><a href="" class="block text-white py-2 px-4 hover:bg-blue-500">Logout</a></li>
+            <li><a href="{% url 'authentication:logout' %}" class="block text-white py-2 px-4 hover:bg-blue-500">Logout</a></li>
         </ul>
     </div>
 </nav>
