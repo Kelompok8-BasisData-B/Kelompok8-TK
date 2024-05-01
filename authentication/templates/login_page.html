@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base-tw.html' %}
 
 {% block meta %}
      <title>Login</title>
@@ -13,8 +13,37 @@
          align-items: center;
          height: 100vh;
          gap: 20px;
-     }  
+     }
+
+     h1 {
+          font-family: 'Roboto', sans-serif !important;
+          font-size: 2rem;
+          font-weight: 400;
+          line-height: 1.5;
+          color: #6f99c0;
+     }
+
+     .form-control{
+          padding: 8px; /* Tambahkan padding ke input */
+          border: 1px solid #ccc; /* Tambahkan border */
+          border-radius: 5px; /* Tambahkan border-radius untuk sudut yang lebih lembut */
+          width: 200px; /* Tentukan lebar input */
+          margin: 5px;
+     }
+
+     .button {
+          background-color: rgb(211, 211, 211);
+          color: black;
+          cursor: pointer;
+          font-size: 1rem;
+          text-align: center;
+          border: 2px solid #000; /* Menambahkan border dengan warna hitam */
+          padding: 10px 10px; /* Menambahkan padding ke tombol */
+     }
+
 </style>
+
+{% include "navbar_guest.html" %}
 <div class = "login">
 
      <h1>FORM LOGIN</h1>
@@ -34,7 +63,7 @@
 
                <tr>
                     <td></td>
-                    <td><input type="submit" name="submit" value="MASUK"/></td> 
+                    <td><input type="submit" name="submit" class="button" value="MASUK"/></td> 
                </tr>
           </table>
      </form>
