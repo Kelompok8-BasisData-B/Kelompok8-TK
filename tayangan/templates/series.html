@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base-tw.html' %}
 
 {% block meta %}
 <title>Hasil Pencarian Trailer</title>
@@ -6,9 +6,6 @@
 
 {% block content %}
 <style>
-    .container {
-        margin-bottom: 50px;
-    }
 
     .title {
             text-align: center;
@@ -46,6 +43,7 @@
 
 </style>
 
+{% include "navbar.html" %}
 <div class="container mt-5">
   <h1 class="title">HALAMAN SERIES</h1>
   <div class="col">
@@ -54,8 +52,8 @@
       <ul id="episode">
       </ul>
       <div class="btn-group" role="group">
-        <button class="btn btn-primary mb-2" id="btnUnduh">Unduh Tayangan</button>
-        <button class="btn btn-primary mb-2" id="btnFavorit">Favorit Tayangan</button>
+        <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal">Unduh Tayangan</button>
+        <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button>
       </div>
       <p>Total View: <span id="totalView"></span></p>
       <p>Rating Rata-Rata: <span id="rating"></span></p>
@@ -70,6 +68,49 @@
       </ul>
       <p>Sutradara: <span id="sutradara"></span></p>
     </div>
+    <div class="modal fade" id="favoriteListModal" tabindex="-1" aria-labelledby="favoriteListModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="favoriteListModalLabelTitle">TAMBAH KE DAFTAR FAVORIT MODAL</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <select class="form-select mb-3" id="dropdown-favorite">
+                        <option value="select-daftar-favorit">Judul Daftar Favorit: </option>
+                        <option value="favorit1">Daftar Favorit 1</option>
+                        <option value="favorit2">Daftar Favorit 2</option>
+                        <option value="favorit3">Daftar Favorit 3</option>
+                    </select>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" id="button_add_favorite" data-bs-dismiss="modal">Tambah</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="downloadModalLabelTitle">SUKSES MENAMBAHKAN TAYANGAN KE DAFTAR UNDUHAN</h1>
+                </div>
+                <div class="modal-body">
+                    <p>Selamat! Anda telah berhasil mengunduh [Judul Tayangan] dan akan
+                        berlaku hingga [current time + 7 hari]. Cek informasi selengkapnya
+                        pada halaman daftar unduhan.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <a href="/daftar-favorit/fav/" class="text-white hover:text-gray-300 me-2">Daftar Favorit
+                        <button type="button" class="btn btn-primary mb-2">Daftar Unduhan</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row-md-4">
         <h2 class="title">BAGIAN ULASAN</h2>
         <div class="form-group">
@@ -168,6 +209,10 @@
 
             console.log("Rating: " + inputRating);
             // ...
+        });
+
+        document.getElementById("button_add_favorite").addEventListener("click", function() {
+            document.getElementById("dropdown-favorite").selectedIndex = 0;
         });
 </script>
 {% endblock content %}
