@@ -1,7 +1,7 @@
 {% extends 'base-tw.html' %}
 
 {% block meta %}
-<title>Trailer</title>
+<title>Tayangan</title>
 {% endblock meta %}
 
 {% block content %}
@@ -37,7 +37,7 @@
 
   <div class="input-group mb-3">
     <input type="text" class="form-control" placeholder="Judul tayangan" aria-label="Judul tayangan">
-    <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+    <button class="btn btn-primary" type="button" id="search">Search</button>
   </div>
 
   <h2>10 Tayangan Terbaik Minggu Ini</h2>
@@ -202,4 +202,10 @@
     </tbody>
   </table>
 </div>
+
+<script>
+  document.getElementById("search").addEventListener("click", function() {
+    window.location.href = "/hasil-pencarian-tayangan";
+  });
+</script>
 {% endblock content %}
