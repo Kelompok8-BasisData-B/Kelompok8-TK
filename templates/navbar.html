@@ -1,13 +1,15 @@
 <nav class="bg-blue-700 py-4 px-4 fixed top-0 left-0 w-[100vw] z-20">
     <div class="container mx-auto flex items-center justify-between">
         <div class="px-4">
-            <a href="#" class="text-white font-bold text-2xl">Pacilflix</a>
+            <a href="#" class="text-white font-bold text-2xl">Pacilflix-8</a>
         </div>
         <div class="hidden md:block"> <!-- Hanya tampil di layar besar (md dan yang lebih besar) -->
             <ul class="flex space-x-4 items-center">
+                <li><a href="/tayangan/" class="text-white hover:text-gray-300">Tayangan</a></li>
                 <li><a href="/daftar-kontributor/main/" class="text-white hover:text-gray-300">Daftar Kontributor</a></li>
+                <li><a href="/daftar-favorit/fav/" class="text-white hover:text-gray-300">Daftar Favorit</a></li>
+                <li><a href="/daftar-unduhan/download/" class="text-white hover:text-gray-300">Daftar Unduhan</a></li>
                 <li><a href="/langganan/main/" class="text-white hover:text-gray-300">Langganan</a></li>
-                <li><a href="" class="text-white hover:text-gray-300">...</a></li>
                 <li class="bg-red-600 px-2 py-2 flex items-center justify-center rounded-sm"><a href="/authentication/logout/" class="text-white hover:text-gray-300 ">Logout</a></li>
             </ul>
         </div>
@@ -23,10 +25,12 @@
     <!-- Bagian menu yang disembunyikan pada layar besar, ditampilkan pada layar kecil -->
     <div id="mobile-menu" class="hidden md:hidden ">
         <ul class="py-2">
-            <li><a href="" class="block text-white py-2 px-4 hover:bg-blue-500">Daftar Kontributor</a></li>
-            <li><a href="" class="block text-white py-2 px-4 hover:bg-blue-500">Reservasi Pengguna</a></li>
-            <li><a href="" class="block text-white py-2 px-4 hover:bg-blue-500">...</a></li>
-            <li><a href="/authentication/logout/" class="block text-white py-2 px-4 hover:bg-blue-500">Logout</a></li>
+            <li><a href="/tayangan/" class="text-white hover:text-gray-300">Tayangan</a></li>
+            <li><a href="/daftar-kontributor/main/" class="text-white hover:text-gray-300">Daftar Kontributor</a></li>
+            <li><a href="/daftar-favorit/fav/" class="text-white hover:text-gray-300">Daftar Favorit</a></li>
+            <li><a href="/daftar-unduhan/download/" class="text-white hover:text-gray-300">Daftar Unduhan</a></li>
+            <li><a href="/langganan/main/" class="text-white hover:text-gray-300">Langganan</a></li>
+            <li class="bg-red-600 px-2 py-2 flex items-center justify-center rounded-sm"><a href="/authentication/logout/" class="text-white hover:text-gray-300 ">Logout</a></li>
         </ul>
     </div>
 </nav>

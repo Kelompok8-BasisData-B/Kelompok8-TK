@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base-tw.html' %}
 
 {% block meta %}
 <title>Trailer</title>
@@ -12,10 +12,6 @@
         margin-bottom: 15px;
     }
 
-    .container {
-        margin-bottom: 50px;
-    }
-
     .title {
             text-align: center;
             margin-top: 50px;
@@ -24,7 +20,7 @@
 
     .search-bar {
         text-align: center;
-        margin-top: 50px;
+        margin-top: 20px;
         margin-bottom: 30px;
     }
 
@@ -33,6 +29,7 @@
     }
 </style>
 
+{% include "navbar_guest.html" %}
 <div class="container">
   <h1 class="title">DAFTAR TAYANGAN</h1>
 

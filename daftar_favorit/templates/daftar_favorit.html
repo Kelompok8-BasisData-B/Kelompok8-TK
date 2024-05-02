@@ -1,0 +1,154 @@
+{% extends "base-tw.html" %}
+{% load static %}
+
+{% block meta %}
+<title>Daftar Favorit</title>
+{% endblock meta %}
+
+{% block content %}
+<style>
+   .custom-scrollbar::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    /* Track */
+    .custom-scrollbar-white::-webkit-scrollbar-track {
+        background: white !important;
+        border-radius: 0px;
+    }
+    .custom-scrollbar-gray::-webkit-scrollbar-track {
+        background: rgb(209 213 219) !important;
+        border-radius: 0px;
+    }
+
+    /* Handle scrollbar*/
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+        border: 5px solid white;
+    }
+    .custom-scrollbar-white::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+        border: 5px solid white;
+    }
+    .custom-scrollbar-gray::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+        border: 5px solid rgb(209 213 219);
+    }
+
+    /* Handle on hover */
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    .top-header {
+    background-color: #2986cc !important; /* Change this to the color you want */
+  }
+
+    .delete-button {
+    background-color: #f06056; /* Red */
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 12px;
+  }
+
+    /* Handle on html */
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+    th {
+        background-color: #2986cc;
+        padding: 5px;
+        color: white;
+    }
+    td {
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+    }
+    table#favoriteTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table#favoriteTable th,
+    table#favoriteTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+    table#favoriteTable tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    table#favoriteTable th {
+        background-color: #434446;
+        color: white;
+    }
+    select {
+        margin-bottom: 10px;
+    }
+    h1 {
+        text-align: center; 
+        font-weight: bold; 
+        font-size: 2rem; 
+    }
+</style>
+
+{% include "navbar.html" %}
+<div class="container">
+        <table id="favoriteTable">
+        <thead>
+            <tr>
+                <th class="top-header" colspan="3">Daftar Favorit Old Film</th>
+            </tr>
+        </thead>
+        <thead>
+                <th>Judul</th>
+                <th>Waktu Ditambahkan</th>
+                <th>Aksi</th>
+        </thead>
+        <tbody>
+                <tr>
+                    <td>Godzilla Minus One</td>
+                    <td>27/04/2024</td>
+                    <td>
+                      <button type="button" class="delete-button">Hapus</button>
+                    </td>
+                </tr>
+                <tr>
+                  <td>Oppenheimer</td>
+                  <td>01/05/2023</td>
+                  <td>
+                    <button type="button" class="delete-button">Hapus</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Beef</td>
+                  <td>02/05/2023</td>
+                  <td>
+                    <button type="button" class="delete-button">Hapus</button>
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+  
+<script>
+   
+</script>
+{% endblock content %}
