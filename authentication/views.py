@@ -19,7 +19,7 @@ def login_view(request):
           user = authenticate(request, username=username, password=password)
           if user is not None:
                login(request, user)
-               return redirect('daftar_kontributor:show_main')
+               return redirect('tayangan:show_tayangan')
           else:
                messages.info(request, 'Username atau password yang Anda masukkan salah! Silahkan coba lagi')
      context = {}
