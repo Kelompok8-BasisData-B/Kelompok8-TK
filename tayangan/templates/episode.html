@@ -6,12 +6,13 @@
 
 {% block content %}
 <style>
-
     .title {
+            font-size: xx-large;
+            font-weight: 500;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 120px;
             margin-bottom: 30px;
-        }
+    }
 
     .search-bar {
         text-align: center;
@@ -28,12 +29,22 @@
     }
 
     h5 {
+        font-size: larger;
         margin-top: 15px;
         margin-bottom: 10px;
     }
 
     a {
-        color: cadetblue;
+        color: blue;
+    }
+    
+    h2 {
+        font-size: x-large;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        margin-top: 10px;
     }
 </style>
 
@@ -43,15 +54,15 @@
   <div class="col">
     <div class="row-md-8">
       <h2>Judul: <span id="judul"></span></h2>
-      <p>Sub Judul: <span id="subJudul"></span></p>
+      <p><b>Sub Judul</b>: <span id="subJudul"></span></p>
       <button class="btn btn-primary mb-2" id="btnTonton">Tonton</button>
-      <p>Episode lainnya:</p>
-      <ul id="episode">
+      <p><b>Episode lainnya</b>:</p>
+      <ul class="list-disc pl-4" id="episode">
       </ul>
-      <p>Sinopsis Episode: <span id="sinopsis"></span></p>
-      <p>Durasi Episode: <span id="durasi"></span></p>
-      <p>URL Episode: <a href="#" id="urlEpisode">link</a></p>
-      <p>Tanggal Rilis Episode: <span id="tanggalRilis"></span></p>
+      <p><b>Sinopsis Episode:</b> <span id="sinopsis"></span></p>
+      <p><b>Durasi Episode:</b> <span id="durasi"></span></p>
+      <p><b>URL Episode:</b> <a href="#" id="urlEpisode">link</a></p>
+      <p><b>Tanggal Rilis Episode:</b> <span id="tanggalRilis"></span></p>
     </div>
   </div>
 </div>
