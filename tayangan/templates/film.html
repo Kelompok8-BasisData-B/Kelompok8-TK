@@ -1,17 +1,18 @@
 {% extends 'base-tw.html' %}
 
 {% block meta %}
-<title>Hasil Pencarian Trailer</title>
+<title>Film</title>
 {% endblock meta %}
 
 {% block content %}
 <style>
-
     .title {
+            font-size: xx-large;
+            font-weight: 500;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 120px;
             margin-bottom: 30px;
-        }
+    }
 
     .search-bar {
         text-align: center;
@@ -20,7 +21,7 @@
     }
 
     .btn-group {
-        margin-top: 10px;
+        margin-top: 15px;
         margin-bottom: 10px;
     }
 
@@ -33,12 +34,17 @@
     }
 
     h5 {
+        font-size: larger;
         margin-top: 15px;
         margin-bottom: 10px;
     }
 
     a {
-        color: cadetblue;
+        color: blue;
+    }
+
+    h2 {
+        font-size: x-large;
     }
 
 </style>
@@ -55,23 +61,23 @@
         <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal">Unduh Tayangan</button>
         <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button>
       </div>
-      <p>Total View: <span id="totalView"></span></p>
-      <p>Rating Rata-Rata: <span id="rating"></span></p>
-      <p>Sinopsis: <span id="sinopsis"></span></p>
-      <p>Durasi Film: <span id="durasi"></span></p>
-      <p>Tanggal Rilis Film: <span id="tanggalRilis"></span></p>
-      <p>URL Film: <a href="#" id="urlFilm">link</a></p>
-      <p>Genre: <span id="genre"></span></p>
-      <p>Asal Negara: <span id="asalNegara"></span></p>
-      <p>Pemain:</p>
-      <ul id="pemain">
+      <p><b>Total View:</b> <span id="totalView"></span></p>
+      <p><b>Rating Rata-Rata:</b> <span id="rating"></span></p>
+      <p><b>Sinopsis:</b> <span id="sinopsis"></span></p>
+      <p><b>Durasi Film:</b> <span id="durasi"></span></p>
+      <p><b>Tanggal Rilis Film:</b> <span id="tanggalRilis"></span></p>
+      <p><b>URL Film:</b> <a href="#" id="urlFilm">link</a></p>
+      <p><b>Genre:</b> <span id="genre"></span></p>
+      <p><b>Asal Negara:</b> <span id="asalNegara"></span></p>
+      <p><b>Pemain:</b></p>
+      <ul class="list-disc pl-4" id="pemain">
       </ul>
-      <p>Penulis Skenario:</p>
-      <ul id="penulis">
+      <p><b>Penulis Skenario:</b></p>
+      <ul class="list-disc pl-4" id="penulis">
       </ul>
-      <p>Sutradara: <span id="sutradara"></span></p>
+      <p><b>Sutradara:</b> <span id="sutradara"></span></p>
     </div>
-    ...
+
 <div class="modal fade" id="favoriteListModal" tabindex="-1" aria-labelledby="favoriteListModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -114,7 +120,7 @@
         </div>
     </div>
 </div>
-...
+
     <div class="row-md-4">
         <h2 class="title">BAGIAN ULASAN</h2>
         <div class="form-group">
@@ -130,8 +136,8 @@
                 </div>
             </div>
         </div>
-        <h5>Daftar Ulasan:</h5>
-        <ul id="daftarUlasan">
+        <h5><b>Daftar Ulasan:</b></h5>
+        <ul class="list-disc pl-4" id="daftarUlasan">
         </ul>
     </div>
   </div>
@@ -152,9 +158,9 @@
             penulis: ["Penulis 1", "Penulis 2"],
             sutradara: "Sutradara",
             ulasan: [
-                {deskripsi: "Film bagus sekali!", rating: 9},
-                {deskripsi: "Film lumayan bagus!", rating: 8},
-                {deskripsi: "WOWWW!", rating: 10}
+                {username: "agus", deskripsi: "Film bagus sekali!", rating: 9},
+                {username: "muklis", deskripsi: "Film lumayan bagus!", rating: 8},
+                {username: "alexander", deskripsi: "WOWWW!", rating: 10}
             ]
         };
 
@@ -186,7 +192,9 @@
         var ulasanList = document.getElementById("daftarUlasan");
         data.ulasan.forEach(function (ulasanItem) {
             var li = document.createElement("li");
-            li.innerText = ulasanItem.deskripsi + " (Rating: " + ulasanItem.rating + ")";
+            li.innerHTML = "<b>Username:</b> " + ulasanItem.username + "</br>" +
+                           "<b>Rating:</b> " + ulasanItem.rating + "</br>" +
+                           "<b>Deskripsi:</b> " + ulasanItem.deskripsi + "</br></br>";
             ulasanList.appendChild(li);
         });
 
