@@ -1,3 +1,10 @@
+-- Kelompok 8
+-- Arya Lesmana - 2206081603
+-- Rena Martha Ulima - 2206818783
+-- Fikri Risyad Indratno - 2206031170
+-- Sabrina Atha Shania - 2206829591
+
+
 -- PENGGUNA --
 CREATE TABLE PENGGUNA(
     username VARCHAR(50) PRIMARY KEY,
@@ -23,13 +30,13 @@ CREATE TABLE DUKUNGAN_PERANGKAT(
 );
 
 -- TRANSACTION --
-CREATE TABLE TRANSACTION(
+CREATE TABLE TRANSACTIONTWO(
     username VARCHAR(50),
     start_date_time DATE,
     end_date_time DATE,
     nama_paket VARCHAR(50),
     metode_pembayaran VARCHAR(50) NOT NULL,
-    timestamp_pembayaran TIMESTAMP NOT NULL,
+    timestamp_pembayaran DATETIME NOT NULL,
     PRIMARY KEY (username, start_date_time), 
     FOREIGN KEY (username) REFERENCES PENGGUNA(username) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (nama_paket) REFERENCES PAKET(nama) ON UPDATE CASCADE ON DELETE CASCADE
