@@ -1,17 +1,18 @@
 {% extends 'base-tw.html' %}
 
 {% block meta %}
-<title>Hasil Pencarian Trailer</title>
+<title>Hasil Pencarian Tayangan</title>
 {% endblock meta %}
 
 {% block content %}
 <style>
-
     .title {
+            font-size: xx-large;
+            font-weight: 500;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 120px;
             margin-bottom: 30px;
-        }
+    }
 
     .search-bar {
         text-align: center;
@@ -21,12 +22,12 @@
 </style>
 
 {% include "navbar.html" %}
-<div class="container">
+<div class="container mt-5">
     <h1 class="title">HASIL PENCARIAN</h1>
   
     <div class="input-group mb-3">
       <input type="text" class="form-control" placeholder="Judul tayangan" aria-label="Judul tayangan">
-      <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+      <button class="btn btn-primary" type="button" id="search">Search</button>
     </div>
   
     <table class="table">
@@ -46,7 +47,9 @@
           <td>https://www.google.com/</td>
           <td>2023-07-21</td>
           <td>
-            <button class="btn btn-primary">See more</button>
+            <a href="/tayangan/series" class="text-white hover:text-gray-300 me-2">
+              <button class="btn btn-primary">Tombol ke Tayangan</button>
+            </a>
         </td>
         </tr>
         <tr>
@@ -55,7 +58,9 @@
           <td>https://www.google.com/</td>
           <td>2023-07-22</td>
           <td>
-            <button class="btn btn-primary">See more</button>
+            <a href="/tayangan/series" class="text-white hover:text-gray-300 me-2">
+              <button class="btn btn-primary">Tombol ke Tayangan</button>
+            </a>
         </td>
         </tr>
         <tr>
@@ -64,11 +69,18 @@
           <td>https://www.google.com/</td>
           <td>2023-07-23</td>
           <td>
-            <button class="btn btn-primary">See more</button>
+            <a href="/tayangan/series" class="text-white hover:text-gray-300 me-2">
+              <button class="btn btn-primary">Tombol ke Tayangan</button>
+            </a>
         </td>
         </tr>
       </tbody>
     </table>
   </div>
 
+  <script>
+    document.getElementById("search").addEventListener("click", function() {
+      window.location.href = "/hasil-pencarian-tayangan";
+    });
+  </script>
 {% endblock content %}
