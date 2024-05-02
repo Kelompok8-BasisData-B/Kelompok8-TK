@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Hasil Pencarian Trailer</title>
+{% endblock meta %}
+
+{% block content %}
+<style>
+    .container {
+        margin-bottom: 50px;
+    }
+
+    .title {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+    .search-bar {
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .btn-group {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    span {
+        color: black;
+    }
+
+    li {
+        color: black;
+    }
+
+    h5 {
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+
+    a {
+        color: cadetblue;
+    }
+
+</style>
+
+<div class="container mt-5">
+  <h1 class="title">HALAMAN SERIES</h1>
+  <div class="col">
+    <div class="row-md-8">
+      <h2>Judul: <span id="judul"></span></h2>
+      <ul id="episode">
+      </ul>
+      <div class="btn-group" role="group">
+        <button class="btn btn-primary mb-2" id="btnUnduh">Unduh Tayangan</button>
+        <button class="btn btn-primary mb-2" id="btnFavorit">Favorit Tayangan</button>
+      </div>
+      <p>Total View: <span id="totalView"></span></p>
+      <p>Rating Rata-Rata: <span id="rating"></span></p>
+      <p>Sinopsis: <span id="sinopsis"></span></p>
+      <p>Genre: <span id="genre"></span></p>
+      <p>Asal Negara: <span id="asalNegara"></span></p>
+      <p>Pemain:</p>
+      <ul id="pemain">
+      </ul>
+      <p>Penulis Skenario:</p>
+      <ul id="penulis">
+      </ul>
+      <p>Sutradara: <span id="sutradara"></span></p>
+    </div>
+    <div class="row-md-4">
+        <h2 class="title">BAGIAN ULASAN</h2>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="text" class="form-control mb-2" id="inputUlasan" placeholder="Deskripsi Ulasan">
+                </div>
+                <div class="col-md-2">
+                    <input type="number" class="form-control mb-2" id="inputRating" placeholder="Rating (1-10)" min="0" max="10">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary mb-2" id="btnSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+        <h5>Daftar Ulasan:</h5>
+        <ul id="daftarUlasan">
+        </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+    var data = {
+            judul: "Beef",
+            episode: [
+                {subJudul: "episode 1", url: "https://google.com"},
+                {subJudul: "episode 2", url: "https://google.com"},
+                {subJudul: "episode 3", url: "https://google.com"}
+            ],
+            totalView: "2",
+            rating: "8.5",
+            sinopsis: "abcdefgh",
+            genre: "Drama",
+            asalNegara: "Jepang",
+            pemain: ["Pemain 1", "Pemain 2", "Pemain 3"],
+            penulis: ["Penulis 1", "Penulis 2"],
+            sutradara: "Sutradara",
+            ulasan: [
+                {deskripsi: "Series bagus sekali!", rating: 9},
+                {deskripsi: "Series lumayan bagus!", rating: 8},
+                {deskripsi: "WOWWW!", rating: 10}
+            ]
+        };
+
+        document.getElementById("judul").innerText = data.judul;
+        document.getElementById("totalView").innerText = data.totalView;
+        document.getElementById("rating").innerText = data.rating;
+        document.getElementById("sinopsis").innerText = data.sinopsis;
+        document.getElementById("genre").innerText = data.genre;
+        document.getElementById("asalNegara").innerText = data.asalNegara;
+        document.getElementById("sutradara").innerText = data.sutradara;
+
+        var pemainList = document.getElementById("pemain");
+        data.pemain.forEach(function (pemainItem) {
+            var li = document.createElement("li");
+            li.innerText = pemainItem;
+            pemainList.appendChild(li);
+        });
+
+        var penulisList = document.getElementById("penulis");
+        data.penulis.forEach(function (penulisItem) {
+            var li = document.createElement("li");
+            li.innerText = penulisItem;
+            penulisList.appendChild(li);
+        });
+
+        var ulasanList = document.getElementById("daftarUlasan");
+        data.ulasan.forEach(function (ulasanItem) {
+            var li = document.createElement("li");
+            li.innerText = ulasanItem.deskripsi + " (Rating: " + ulasanItem.rating + ")";
+            ulasanList.appendChild(li);
+        });
+        
+        var episodeList = document.getElementById("episode");
+        data.episode.forEach(function (episodeItem) {
+            var li = document.createElement("li");
+            li.innerHTML = '<a href="' + episodeItem.url + '">' + episodeItem.subJudul + '</a>';
+            episodeList.appendChild(li);
+        });
+
+        document.getElementById("btnUnduh").addEventListener("click", function () {
+            console.log("Mengunduh tayangan...");
+        });
+
+        document.getElementById("btnFavorit").addEventListener("click", function () {
+            console.log("Menambahkan ke favorit...");
+        });
+
+        document.getElementById("btnSubmit").addEventListener("click", function() {
+            var inputRating = document.getElementById("inputRating").value;
+            if (isNaN(inputRating) || inputRating < 0 || inputRating > 10) {
+                alert("Rating harus dalam rentang 0-10");
+                return false;
+            }
+
+            console.log("Rating: " + inputRating);
+            // ...
+        });
+</script>
+{% endblock content %}

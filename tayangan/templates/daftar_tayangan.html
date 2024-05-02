@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Tayangan</title>
+{% endblock meta %}
+
+{% block content %}
+<style>
+    h2 {
+        font-size: x-large;
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+
+    .container {
+        margin-bottom: 50px;
+    }
+
+    .title {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+    .search-bar {
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .btn-group {
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="container">
+  <h1 class="title">DAFTAR TAYANGAN</h1>
+
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Judul tayangan" aria-label="Judul tayangan">
+    <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+  </div>
+
+  <h2>10 Tayangan Terbaik Minggu Ini</h2>
+
+  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+    <label class="btn btn-outline-secondary" for="btnradio1">Global</label>
+  
+    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+    <label class="btn btn-outline-secondary" for="btnradio2">Negara</label>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Peringkat</th>
+        <th scope="col">Judul</th>
+        <th scope="col">Sinopsis Trailer</th>
+        <th scope="col">URL Trailer</th>
+        <th scope="col">Tanggal Rilis Trailer</th>
+        <th scope="col">Total View 7 Hari Terakhir</th>
+        <th scope="col">Tayangan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Judul 1</td>
+        <td>A B C</td>
+        <td>https://www.google.com/</td>
+        <td>2023-07-21</td>
+        <td>10</td>
+        <td>
+            <button class="btn btn-primary">See more</button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Judul 2</td>
+        <td>D E F</td>
+        <td>https://www.google.com/</td>
+        <td>2023-07-22</td>
+        <td>15</td>
+        <td>
+            <button class="btn btn-primary">See more</button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Judul 3</td>
+        <td>G H I</td>
+        <td>https://www.google.com/</td>
+        <td>2023-07-23</td>
+        <td>20</td>
+        <td>
+            <button class="btn btn-primary">See more</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Film</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Judul</th>
+        <th scope="col">Sinopsis Trailer</th>
+        <th scope="col">URL Trailer</th>
+        <th scope="col">Tanggal Rilis Trailer</th>
+        <th scope="col">Tayangan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Judul 1</td>
+        <td>A B C</td>
+        <td>https://www.google.com/</td>
+        <td>2023-07-21</td>
+        <td>
+            <button class="btn btn-primary">See more</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Judul 2</td>
+        <td>D E F</td>
+        <td>https://www.google.com/</td>
+        <td>2023-07-22</td>
+        <td>
+            <button class="btn btn-primary">See more</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Judul 3</td>
+        <td>G H I</td>
+        <td>https://www.google.com/</td>
+        <td>2023-07-23</td>
+        <td>
+            <button class="btn btn-primary">See more</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Series</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Judul</th>
+        <th scope="col">Sinopsis Trailer</th>
+        <th scope="col">URL Trailer</th>
+        <th scope="col">Tanggal Rilis Trailer</th>
+        <th scope="col">Tayangan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Judul 1</td>
+        <td>A B C</td>
+        <td>https://www.google.com/</td>
+        <td>2023-07-21</td>
+        <td>
+            <button class="btn btn-primary">See more</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Judul 2</td>
+        <td>D E F</td>
+        <td>https://www.google.com/</td>
+        <td>2023-07-22</td>
+        <td>
+            <button class="btn btn-primary">See more</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Judul 3</td>
+        <td>G H I</td>
+        <td>https://www.google.com/</td>
+        <td>2023-07-23</td>
+        <td>
+            <button class="btn btn-primary">See more</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock content %}

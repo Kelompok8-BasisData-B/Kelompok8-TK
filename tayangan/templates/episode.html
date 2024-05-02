@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Hasil Pencarian Trailer</title>
+{% endblock meta %}
+
+{% block content %}
+<style>
+    .container {
+        margin-bottom: 50px;
+    }
+
+    .title {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+    .search-bar {
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    span {
+        color: black;
+    }
+
+    li {
+        color: black;
+    }
+
+    h5 {
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+
+    a {
+        color: cadetblue;
+    }
+</style>
+
+<div class="container mt-5">
+  <h1 class="title">HALAMAN SERIES</h1>
+  <div class="col">
+    <div class="row-md-8">
+      <h2>Judul: <span id="judul"></span></h2>
+      <p>Sub Judul: <span id="subJudul"></span></p>
+      <button class="btn btn-primary mb-2" id="btnTonton">Tonton</button>
+      <p>Episode lainnya:</p>
+      <ul id="episode">
+      </ul>
+      <p>Sinopsis Episode: <span id="sinopsis"></span></p>
+      <p>Durasi Episode: <span id="durasi"></span></p>
+      <p>URL Episode: <a href="#" id="urlEpisode">link</a></p>
+      <p>Tanggal Rilis Episode: <span id="tanggalRilis"></span></p>
+    </div>
+  </div>
+</div>
+
+<script>
+    var data = {
+            judul: "Beef",
+            subJudul: "episode 1",
+            episode: [,
+                {subJudul: "episode 2", url: "https://google.com"},
+                {subJudul: "episode 3", url: "https://google.com"}
+            ],
+            sinopsis: "abcdefgh",
+            durasi: "81",
+            urlEpisode: "https://www.google.com",
+            tanggalRilis: "1 Januari 2024",
+        };
+
+        document.getElementById("judul").innerText = data.judul;
+        document.getElementById("subJudul").innerText = data.subJudul;
+        document.getElementById("sinopsis").innerText = data.sinopsis;
+        document.getElementById("durasi").innerText = data.durasi;
+        document.getElementById("urlEpisode").href = data.urlEpisode;
+        document.getElementById("tanggalRilis").innerText = data.tanggalRilis;
+
+        var episodeList = document.getElementById("episode");
+        data.episode.forEach(function (episodeItem) {
+            var li = document.createElement("li");
+            li.innerHTML = '<a href="' + episodeItem.url + '">' + episodeItem.subJudul + '</a>';
+            episodeList.appendChild(li);
+        });
+
+        document.getElementById("btnTonton").addEventListener("click", function () {
+            console.log("Menonton film...");
+        });
+</script>
+{% endblock content %}
