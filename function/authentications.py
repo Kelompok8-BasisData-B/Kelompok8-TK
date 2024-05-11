@@ -1,0 +1,1 @@
+from function.general import query_result

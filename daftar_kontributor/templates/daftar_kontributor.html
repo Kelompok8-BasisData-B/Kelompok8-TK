@@ -46,12 +46,14 @@
     /* Handle on html */
     body {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+        flex-direction: column; /* Ensure content below navbar */
+        min-height: 100vh; /* Fill entire viewport height */
         margin: 0;
         padding: 0;
         font-family: Arial, sans-serif;
+    }
+    .container {
+        flex: 1; /* Fill remaining vertical space */
     }
     table, th, td {
         border: 1px solid black;
@@ -112,44 +114,51 @@
                     <th>Kewarganegaraan</th>
                     </tr>
             </thead>
-        <tbody>
+            <tbody>
+                {% for item in result %}
                 <tr>
-                    <td>John Doe</td>
-                    <td>Pemain</td>
-                    <td>Laki laki</td>
-                    <td>Indonesia</td>
+                    <td>{{ item.nama }}</td>
+                    <td>{{ item.tipe }}</td>
+                    <td>{{ item.jenis_kelamin }}</td>
+                    <td>{{ item.kewarganegaraan }}</td>
                 </tr>
-                <tr>
-                    <td>Jane Doe</td>
-                    <td>Penulis Skenario</td>
-                    <td>Perempuan</td>
-                    <td>Malaysia</td>
-                </tr>
-                <tr>
-                    <td>Dawn Champlin</td>
-                    <td>Sutradara</td>
-                    <td>Laki laki</td>
-                    <td>South Georgia and the South Sandwich Islands</td>
-                </tr>
+                {% endfor %}
             </tbody>
-        </table>
+     </table>
     </div>
 </div>
   
 <script>
     const tipeFilter = document.getElementById("tipe-filter");
-    const contributorTable = document.getElementById("contributor-table");
-    const tableRows = Array.from(contributorTable.getElementsByTagName("tbody")[0].rows);
+    const allRows = Array.from(document.querySelectorAll("#subscriptionTable tbody tr"));
+    const rowsByType = {};
+
+    allRows.forEach(row => {
+        const type = row.cells[1].textContent.trim();
+        if (!rowsByType[type]) {
+            rowsByType[type] = [];
+        }
+        rowsByType[type].push(row);
+    });
+
+    function toggleRows(selectedType) {
+        Object.values(rowsByType).forEach(rows => {
+            rows.forEach(row => {
+                if (selectedType === "" || row.cells[1].textContent.trim() === selectedType) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    }
+
     tipeFilter.addEventListener("change", () => {
         const selectedType = tipeFilter.value;
-        tableRows.forEach(row => {
-            if (selectedType === "" || row.cells[1].textContent.trim() === selectedType) {
-            row.style.display = "";
-            } else {
-            row.style.display = "none";
-            }
-        });
+        toggleRows(selectedType);
     });
+
     tipeFilter.dispatchEvent(new Event("change"));
 </script>
+
 {% endblock content %}
