@@ -48,7 +48,7 @@
 
      <h1>FORM LOGIN</h1>
 
-     <form method="POST" action="">
+     <form method="POST">
           {% csrf_token %}
           <table>
                <tr>
@@ -69,12 +69,12 @@
      </form>
 
      {% if messages %}
-          <ul>
+          <ul class="messages">
                {% for message in messages %}
                     <li>{{ message }}</li>
                {% endfor %}
           </ul>
-     {% endif %}     
+     {% endif %}   
 </div>
 
 {% endblock content %}
