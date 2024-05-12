@@ -67,12 +67,14 @@ def process_payment(request):
         resolusi_layar = request.POST.get('resolusi_layar')
         dukungan_perangkat = request.POST.get('dukungan_perangkat')
         metode_pembayaran = request.POST.get('metode_pembayaran')
-        
-        with connection.cursor() as cursor:
-            cursor.execute(f"""
-                            INSERT INTO "TRANSACTION" (nama_paket, harga, resolusi_layar, dukungan_perangkat, metode_pembayaran) VALUES (%s, %s, %s, %s, %s)
-                            """, [nama_paket, harga, resolusi_layar, dukungan_perangkat, metode_pembayaran]
-                            )
+        username = request.COOKIES.get('username')
+        password = request.POST.get('password')
+
+        # with connection.cursor() as cursor:
+        #     cursor.execute(f"""
+        #                     INSERT INTO "TRANSACTION" (nama_paket, harga, resolusi_layar, dukungan_perangkat, metode_pembayaran) VALUES (%s, %s, %s, %s, %s)
+        #                     """, [nama_paket, harga, resolusi_layar, dukungan_perangkat, metode_pembayaran]
+        #                     )
         return HttpResponse("Pembayaran berhasil!")
 
     return HttpResponse("Permintaan tidak valid!")

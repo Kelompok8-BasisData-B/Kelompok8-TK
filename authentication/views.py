@@ -15,13 +15,16 @@ def login_view(request):
           username = request.POST.get('username')
           password = request.POST.get('password')
 
+          print(username)
           with connection.cursor() as cursor:
                cursor.execute(f"""SELECT username, password FROM "PENGGUNA" WHERE username = %s AND password = %s""", 
                               [username, password])
                user = cursor.fetchone()
           
           if user is not None:
-               return redirect('tayangan:show_tayangan')
+               response = redirect('tayangan:show_tayangan')
+               response.set_cookie('username', username)
+               return response
           else:
                context['error'] = "Username atau password tidak ditemukan"
                messages.error(request, "Username atau password tidak ditemukan")
