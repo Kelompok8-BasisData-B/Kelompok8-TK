@@ -10,9 +10,9 @@ def query_result_two(query):
     result = cursor.fetchall()
     return result
 
-def query_result(query):
+def query_result(query, params=None):
     with connection.cursor() as cursor:
-        cursor.execute(query)
+        cursor.execute(query, params)
         columns = [col[0] for col in cursor.description] 
         results = cursor.fetchall()
         data = []
