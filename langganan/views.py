@@ -2,8 +2,8 @@ from django.shortcuts import render
 from function.general import query_result
 from django.http import HttpResponse
 from django.db import connection
-from datetime import date, datetime, timedelta
-from django.db import IntegrityError
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 
 # Create your views here.
@@ -74,30 +74,36 @@ def process_payment(request):
         dukungan_perangkat = request.POST.get('dukungan_perangkat')
         metode_pembayaran = request.POST.get('metode_pembayaran')
         username = request.COOKIES.get('username')
-        current_date = date.today()
-        current_timestamp = datetime.now()
-        next_month = current_date.month + 1
-        next_year = current_date.year
+        current_timestamp = datetime.now() + timedelta(days=1)
+        start_date = datetime.today()+ timedelta(days=1)
 
-        if next_month > 12:
-            next_month = 1
-            next_year += 1
+        # Mendapatkan tanggal satu bulan kemudian
+        end_date = start_date + relativedelta(months=1)
 
-        end_date = current_date.replace(month=next_month, year=next_year)
-        print(end_date)
-
-        try:
+        check_time_exists = query_result(f"""
+                                        SELECT EXISTS (
+                                            SELECT 1
+                                            FROM "TRANSACTION" AS T
+                                            WHERE T.username = %s
+                                            AND CURRENT_DATE = T.timestamp_pembayaran::date
+                                        )
+                                    """, [username])
+        
+        print(check_time_exists)
+        if check_time_exists[0]['exists'] == False:
+            print("masuk sini")
             context = {
                 'check_time_add': True,
             }
             with connection.cursor() as cursor:
                 cursor.execute(f"""
                     INSERT INTO "TRANSACTION" (username, start_date_time, end_date_time, nama_paket, metode_pembayaran, timestamp_pembayaran) 
-                    VALUES ('{username}', '{current_date}', '{end_date}', '{nama_paket}', '{metode_pembayaran}', '{current_timestamp}')
+                    VALUES ('{username}', '{start_date}', '{end_date}', '{nama_paket}', '{metode_pembayaran}', '{current_timestamp}')
                 """)
                 connection.commit()
             return render(request, 'notification.html', context)
-        except IntegrityError:
+        else:
+            print("atau masuk sini")
             context = {
                 'check_time_add': False,
             }
