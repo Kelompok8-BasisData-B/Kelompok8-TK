@@ -20,6 +20,7 @@ def login_view(request):
                user = cursor.fetchone()
           
           if user is not None:
+               request.session['username'] = username
                response = redirect('tayangan:show_tayangan')
                response.set_cookie('username', username)
                return response
@@ -47,4 +48,4 @@ def register_view(request):
 
 def logout_view(request):
      logout(request)
-     return redirect('authentication:landing')
+     return redirect('/tayangan/')
