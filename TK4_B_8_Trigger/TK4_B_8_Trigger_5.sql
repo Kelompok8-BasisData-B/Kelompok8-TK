@@ -1,31 +1,39 @@
 -- Trigger 5
 -- Memeriksa Paket yang aktif (Jika ada maka dilakukan operasi update, jika tidak maka dilakukan operasi insert)
-create or replace function update_or_insert_package () returns trigger as $$
+-- Supabase AI is experimental and may produce incorrect answers
+-- Always verify the output before executing
+
+create
+or replace function update_or_insert_package () returns trigger as $$
 DECLARE
     activate_package_exists BOOLEAN;
 BEGIN
-    WITH transaction_check AS (
-    SELECT 1
-    FROM "TRANSACTION" T
-    INNER JOIN "PAKET" P ON T.nama_paket = P.nama
-    INNER JOIN "DUKUNGAN_PERANGKAT" D ON P.nama = D.nama_paket
-    WHERE T.nama_paket IS NOT NULL
-      AND T.username = NEW.username  
-      AND CURRENT_DATE < T.end_date_time
-      AND CURRENT_DATE >= T.start_date_time
-    )
-    SELECT EXISTS (SELECT 1 FROM transaction_check) INTO activate_package_exists;
-    IF (activate_package_exists) THEN
-        UPDATE "TRANSACTION" AS T
+    SELECT EXISTS (
+        SELECT 1
+        FROM "TRANSACTION" AS T
+        JOIN "PAKET" AS P ON P.nama = T.nama_paket
+        JOIN "DUKUNGAN_PERANGKAT" AS D ON D.nama_paket = P.nama
+        WHERE
+            T.nama_paket IS NOT NULL
+            AND T.username = NEW.username
+            AND CURRENT_DATE < T.end_date_time
+            AND CURRENT_DATE >= T.start_date_time
+    ) INTO activate_package_exists;
+
+    IF activate_package_exists THEN
+        UPDATE "TRANSACTION"
         SET
             nama_paket = NEW.nama_paket,
-            start_date_time = NEW.start_date_time,
             end_date_time = NEW.end_date_time, 
             metode_pembayaran = NEW.metode_pembayaran,
             timestamp_pembayaran = NEW.timestamp_pembayaran
-        WHERE T.username = NEW.username
-            AND CURRENT_DATE < T.end_date_time
-            AND CURRENT_DATE >= T.start_date_time;
+        WHERE
+            nama_paket IS NOT NULL
+            AND username = NEW.username
+            AND CURRENT_DATE < end_date_time
+            AND CURRENT_DATE >= start_date_time;
+        
+        RETURN NULL; 
     END IF;
 
     RETURN NEW;
