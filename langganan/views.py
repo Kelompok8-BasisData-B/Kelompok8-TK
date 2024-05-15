@@ -98,7 +98,7 @@ def process_payment(request):
             with connection.cursor() as cursor:
                 cursor.execute(f"""
                     INSERT INTO "TRANSACTION" (username, start_date_time, end_date_time, nama_paket, metode_pembayaran, timestamp_pembayaran) 
-                    VALUES ('{username}', '{start_date}', '{end_date}', '{nama_paket}', '{metode_pembayaran}', '{current_timestamp}')
+                    VALUES ('{username}', CURRENT_DATE, CURRENT_DATE + INTERVAL '1 month', '{nama_paket}', '{metode_pembayaran}', CURRENT_TIMESTAMP)
                 """)
                 connection.commit()
             return render(request, 'notification.html', context)
