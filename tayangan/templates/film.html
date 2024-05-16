@@ -48,9 +48,16 @@
     }
 
     .empty {
-        margin-top: 10px;
-        text-align: center;
-        font-size: large;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: large;
+      font-weight: 600;
+    }
+
+    .slider {
+        margin-top: 20px;
+        margin-bottom: 10px;
     }
 </style>
 
@@ -61,8 +68,15 @@
   <div class="col">
     <div class="row-md-8">
       <h2>Judul: <span id="judul">{{ film.judul }}</span></h2>
+      {% if released.is_released == 1 %}
+      <div class="slider">
+          <input type="range">
+      </div>
+      {% endif %}
       <div class="btn-group" role="group">
+        {% if released.is_released == 1 %}
         <button class="btn btn-primary mb-2" id="btnTonton">Tonton</button>
+        {% endif %}
         <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal">Unduh Tayangan</button>
         <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button>
       </div>

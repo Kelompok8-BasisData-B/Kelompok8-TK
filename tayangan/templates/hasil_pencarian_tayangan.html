@@ -21,9 +21,11 @@
     }
   
     .empty {
-        margin-top: 10px;
-        text-align: center;
-        font-size: large;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: large;
+      font-weight: 600;
     }
 </style>
 
@@ -55,9 +57,11 @@
           <td>{{ item.url_video_trailer }}</td>
           <td>{{ item.release_date_trailer }}</td>
           <td>
+            {% if paket.is_valid == 1 %}
             <a href="/tayangan/film/{{ item.id }}" class="text-white hover:text-gray-300 me-2">
               <button type="button" class="btn btn-primary mb-2">Tombol ke Tayangan</button>
             </a>
+            {% endif %}
           </td>
         </tr>
         {% endfor %}
