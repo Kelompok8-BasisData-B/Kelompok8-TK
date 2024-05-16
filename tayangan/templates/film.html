@@ -77,7 +77,7 @@
         {% if released.is_released == 1 %}
         <button class="btn btn-primary mb-2" id="btnTonton">Tonton</button>
         {% endif %}
-        <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal">Unduh Tayangan</button>
+        <button class="btn btn-primary mb-2" id="btnUnduh" data-tayangan-id="{{ tayangan_id }}">Unduh Tayangan</button>
         <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button>
       </div>
       <p><b>Total View:</b> <span id="totalView">{{ view.count }}</span></p>

@@ -122,27 +122,15 @@
                 <th>Aksi</th>
         </thead>
         <tbody>
+                {% for item in list_unduhan %}
                 <tr>
-                    <td>Godzilla Minus One</td>
+                    <td>{{ item }}</td>
                     <td>01/05/2024</td>
                     <td>
                       <button type="button" class="delete-button">Hapus</button>
                     </td>
                 </tr>
-                <tr>
-                  <td>Oppenheimer</td>
-                  <td>01/05/2024</td>
-                  <td>
-                    <button type="button" class="delete-button">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Beef</td>
-                  <td>02/05/2024</td>
-                  <td>
-                    <button type="button" class="delete-button">Hapus</button>
-                  </td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

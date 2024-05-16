@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from function.general import *
 from urllib.parse import quote
@@ -253,6 +254,20 @@ def show_episode(request, id, sub_judul):
                'released': released[0]}
 
     return render(request, 'episode.html', context)
+
+def unduh_tayangan(request, id):
+    username = request.COOKIES.get('username')
+    
+    if username:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                INSERT INTO "TAYANGAN_TERUNDUH" (ID_TAYANGAN, USERNAME)
+                VALUES (%s, %s)
+            """, [id, username])
+        
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'User not authenticated'}, status=401)
 
 def check_string_valid(string):
     new_string = ''
