@@ -1,52 +1,49 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from function.general import *
 from urllib.parse import quote
 
 def show_trailer(request):
-    if request.COOKIES:
-        return redirect('tayangan:show_tayangan')
-    else:
-        top_10 = query_result(f"""WITH all_duration AS (
-                                SELECT T.id AS id, F.durasi_film AS durasi
-                                FROM "TAYANGAN" AS T
-                                JOIN "FILM" AS F ON F.id_tayangan = T.id
-                                UNION
-                                SELECT T.id AS id, AVG(E.durasi) AS durasi
-                                FROM "TAYANGAN" AS t
-                                JOIN "SERIES" AS S ON S.id_tayangan = T.id
-                                JOIN "EPISODE" AS E on E.id_series = T.id
-                                GROUP BY T.id
-                            ), recent_views AS (
-                                SELECT T.id AS id, COUNT(*) AS total_view
-                                FROM "TAYANGAN" AS T 
-                                JOIN "RIWAYAT_NONTON" AS RW ON RW.id_tayangan = T.id
-                                JOIN "all_duration" AS AD ON AD.id = T.id
-                                WHERE RW.start_date_time >= NOW() - INTERVAL '7 DAYS' AND
-                                EXTRACT(EPOCH FROM (RW.end_date_time - RW.start_date_time)) / 60 > (0.7 * AD.durasi)
-                                GROUP BY T.id
-                            )
-                            
-                            SELECT T.judul, T.sinopsis_trailer, T.url_video_trailer, T.release_date_trailer, RV.total_view
+    top_10 = query_result(f"""WITH all_duration AS (
+                            SELECT T.id AS id, F.durasi_film AS durasi
                             FROM "TAYANGAN" AS T
-                            JOIN "recent_views" AS RV ON RV.id = T.id
-                            ORDER BY RV.total_view DESC
-                            LIMIT 10;""")
-        
-        film = query_result(f"""SELECT T.judul, T.sinopsis_trailer, T.url_video_trailer, T.release_date_trailer
-                                FROM "TAYANGAN" AS T
-                                JOIN "FILM" AS F ON F.id_tayangan = T.id;""")
+                            JOIN "FILM" AS F ON F.id_tayangan = T.id
+                            UNION
+                            SELECT T.id AS id, AVG(E.durasi) AS durasi
+                            FROM "TAYANGAN" AS t
+                            JOIN "SERIES" AS S ON S.id_tayangan = T.id
+                            JOIN "EPISODE" AS E on E.id_series = T.id
+                            GROUP BY T.id
+                        ), recent_views AS (
+                            SELECT T.id AS id, COUNT(*) AS total_view
+                            FROM "TAYANGAN" AS T 
+                            JOIN "RIWAYAT_NONTON" AS RW ON RW.id_tayangan = T.id
+                            JOIN "all_duration" AS AD ON AD.id = T.id
+                            WHERE RW.start_date_time >= NOW() - INTERVAL '7 DAYS' AND
+                            EXTRACT(EPOCH FROM (RW.end_date_time - RW.start_date_time)) / 60 > (0.7 * AD.durasi)
+                            GROUP BY T.id
+                        )
+                        
+                        SELECT T.judul, T.sinopsis_trailer, T.url_video_trailer, T.release_date_trailer, RV.total_view
+                        FROM "TAYANGAN" AS T
+                        JOIN "recent_views" AS RV ON RV.id = T.id
+                        ORDER BY RV.total_view DESC
+                        LIMIT 10;""")
+    
+    film = query_result(f"""SELECT T.judul, T.sinopsis_trailer, T.url_video_trailer, T.release_date_trailer
+                            FROM "TAYANGAN" AS T
+                            JOIN "FILM" AS F ON F.id_tayangan = T.id;""")
 
-        series = query_result(f"""SELECT T.judul, T.sinopsis_trailer, T.url_video_trailer, T.release_date_trailer
-                                FROM "TAYANGAN" AS T
-                                JOIN "SERIES" AS S ON S.id_tayangan = T.id;""")
+    series = query_result(f"""SELECT T.judul, T.sinopsis_trailer, T.url_video_trailer, T.release_date_trailer
+                            FROM "TAYANGAN" AS T
+                            JOIN "SERIES" AS S ON S.id_tayangan = T.id;""")
 
-        context = {
-            "film": film,
-            "series": series,
-            "top_10": top_10
-        }
+    context = {
+        "film": film,
+        "series": series,
+        "top_10": top_10
+    }
 
-        return render(request, 'daftar_trailer.html', context)
+    return render(request, 'daftar_trailer.html', context)
 
 def show_tayangan(request):
     top_10 = query_result(f"""WITH all_duration AS (
