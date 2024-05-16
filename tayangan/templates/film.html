@@ -47,6 +47,11 @@
         font-size: x-large;
     }
 
+    .empty {
+        margin-top: 10px;
+        text-align: center;
+        font-size: large;
+    }
 </style>
 
 {% include "navbar.html" %}
@@ -55,27 +60,33 @@
   <h1 class="title">HALAMAN FILM</h1>
   <div class="col">
     <div class="row-md-8">
-      <h2>Judul: <span id="judul"></span></h2>
+      <h2>Judul: <span id="judul">{{ film.judul }}</span></h2>
       <div class="btn-group" role="group">
         <button class="btn btn-primary mb-2" id="btnTonton">Tonton</button>
         <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal">Unduh Tayangan</button>
         <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button>
       </div>
-      <p><b>Total View:</b> <span id="totalView"></span></p>
-      <p><b>Rating Rata-Rata:</b> <span id="rating"></span></p>
-      <p><b>Sinopsis:</b> <span id="sinopsis"></span></p>
-      <p><b>Durasi Film:</b> <span id="durasi"></span></p>
-      <p><b>Tanggal Rilis Film:</b> <span id="tanggalRilis"></span></p>
-      <p><b>URL Film:</b> <a href="#" id="urlFilm">link</a></p>
-      <p><b>Genre:</b> <span id="genre"></span></p>
-      <p><b>Asal Negara:</b> <span id="asalNegara"></span></p>
+      <p><b>Total View:</b> <span id="totalView">{{ view.count }}</span></p>
+      <p><b>Rating Rata-Rata:</b> <span id="rating">{{ rating.avg }}</span></p>
+      <p><b>Sinopsis:</b> <span id="sinopsis">{{ film.sinopsis }}</span></p>
+      <p><b>Durasi Film:</b> <span id="durasi">{{ film.durasi_film }}</span></p>
+      <p><b>Tanggal Rilis Film:</b> <span id="tanggalRilis">{{ film.release_date_film }}</span></p>
+      <p><b>URL Film:</b> <a href="{{ film.url_video_film }}" id="urlFilm">{{ film.judul }}</a></p>
+      <p><b>Genre:</b> <span id="genre">{{ film.genre }}</span></p>
+      <p><b>Asal Negara:</b> <span id="asalNegara">{{ film.asal_negara }}</span></p>
       <p><b>Pemain:</b></p>
       <ul class="list-disc pl-4" id="pemain">
+        {% for item in pemain %}
+        <li>{{ item.nama }}</li>
+        {% endfor %}
       </ul>
       <p><b>Penulis Skenario:</b></p>
       <ul class="list-disc pl-4" id="penulis">
+        {% for item in penulis %}
+        <li>{{ item.nama }}</li>
+        {% endfor %}
       </ul>
-      <p><b>Sutradara:</b> <span id="sutradara"></span></p>
+      <p><b>Sutradara:</b> <span id="sutradara">{{ film.nama_sutradara }}</span></p>
     </div>
 
 <div class="modal fade" id="favoriteListModal" tabindex="-1" aria-labelledby="favoriteListModalLabel" aria-hidden="true" data-bs-backdrop="static">
@@ -138,66 +149,19 @@
         </div>
         <h5><b>Daftar Ulasan:</b></h5>
         <ul class="list-disc pl-4" id="daftarUlasan">
+            {% for item in ulasan %}
+            <b>Username:</b> {{ item.username }}</br>
+            <b>Rating:</b> {{ item.rating }}</br>
+            <b>Deskripsi:</b> {{ item.deskripsi }}</br></br>
+            {% empty %}
+            <div class="empty">Belum ada ulasan</div>
+            {% endfor %}
         </ul>
     </div>
   </div>
 </div>
 
 <script>
-    var data = {
-            judul: "Godzilla Minus One",
-            totalView: "2",
-            rating: "8.5",
-            sinopsis: "abcdefgh",
-            durasi: "120",
-            tanggalRilis: "1 Januari 2024",
-            urlFilm: "https://www.google.com",
-            genre: "Drama",
-            asalNegara: "Jepang",
-            pemain: ["Pemain 1", "Pemain 2", "Pemain 3"],
-            penulis: ["Penulis 1", "Penulis 2"],
-            sutradara: "Sutradara",
-            ulasan: [
-                {username: "agus", deskripsi: "Film bagus sekali!", rating: 9},
-                {username: "muklis", deskripsi: "Film lumayan bagus!", rating: 8},
-                {username: "alexander", deskripsi: "WOWWW!", rating: 10}
-            ]
-        };
-
-        document.getElementById("judul").innerText = data.judul;
-        document.getElementById("totalView").innerText = data.totalView;
-        document.getElementById("rating").innerText = data.rating;
-        document.getElementById("sinopsis").innerText = data.sinopsis;
-        document.getElementById("durasi").innerText = data.durasi;
-        document.getElementById("tanggalRilis").innerText = data.tanggalRilis;
-        document.getElementById("urlFilm").href = data.urlFilm;
-        document.getElementById("genre").innerText = data.genre;
-        document.getElementById("asalNegara").innerText = data.asalNegara;
-        document.getElementById("sutradara").innerText = data.sutradara;
-
-        var pemainList = document.getElementById("pemain");
-        data.pemain.forEach(function (pemainItem) {
-            var li = document.createElement("li");
-            li.innerText = pemainItem;
-            pemainList.appendChild(li);
-        });
-
-        var penulisList = document.getElementById("penulis");
-        data.penulis.forEach(function (penulisItem) {
-            var li = document.createElement("li");
-            li.innerText = penulisItem;
-            penulisList.appendChild(li);
-        });
-
-        var ulasanList = document.getElementById("daftarUlasan");
-        data.ulasan.forEach(function (ulasanItem) {
-            var li = document.createElement("li");
-            li.innerHTML = "<b>Username:</b> " + ulasanItem.username + "</br>" +
-                           "<b>Rating:</b> " + ulasanItem.rating + "</br>" +
-                           "<b>Deskripsi:</b> " + ulasanItem.deskripsi + "</br></br>";
-            ulasanList.appendChild(li);
-        });
-
         document.getElementById("btnTonton").addEventListener("click", function () {
             console.log("Menonton film...");
         });
