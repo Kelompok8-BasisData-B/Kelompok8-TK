@@ -117,32 +117,96 @@
         </thead>
         <tbody>
             <tr>
-                <td>Subscription 1</td>
-                <td>$19.99</td>
-                <td>1080p</td>
-                <td>Laptop, HP</td>
+                <td>{{ request.GET.paket }}</td>
+                <td>{{ request.GET.harga }}</td>
+                <td>{{ request.GET.resolusi_layar }}</td>
+                <td>{{ request.GET.dukungan_perangkat }}</td>
             </tr>
         </tbody>
     </table>
     <br>
     <h3>Pilih Metode Pembayaran:</h3>
-    <select>
-        <option value="">Metode Pembayaran</option>
+    <select id="metodePembayaranDropdown">
+        <option value="default">Metode Pembayaran</option>
         <option value="transfer_bank">Transfer Bank</option>
         <option value="credit_card">Credit Card</option>
         <option value="e_wallet">E-Wallet</option>
     </select>
+
     <br>
     <br>
-    <a href="/langganan/main/"><button>Bayar</button>
-</div>
+    
+    <form method="post" action="/langganan/process_payment/">
+        {% csrf_token %}
+        <input type="hidden" name="nama_paket" value="{{ request.GET.paket }}">
+        <input type="hidden" name="harga" value="{{ request.GET.harga }}">
+        <input type="hidden" name="resolusi_layar" value="{{ request.GET.resolusi_layar }}">
+        <input type="hidden" name="dukungan_perangkat" value="{{ request.GET.dukungan_perangkat }}">
+        <input type="hidden" id="metodePembayaranInput" name="metode_pembayaran" value="">
+        <button type="submit" id="btnBayar">Bayar</button>
+    </form>
 
 <script>
-    const select = document.querySelector('select');
-    select.addEventListener('change', () => {
-        const selectedOption = select.options[select.selectedIndex];
-        const value = selectedOption.value;
-        console.log(value);
+    const metodePembayaranDropdown = document.getElementById('metodePembayaranDropdown');
+    const btnBayar = document.getElementById('btnBayar');
+
+    btnBayar.disabled = true;
+
+    metodePembayaranDropdown.addEventListener('change', function() {
+        const selectedMetode = metodePembayaranDropdown.value;
+
+        btnBayar.disabled = selectedMetode === 'default' || selectedMetode === '';
+    });
+
+    btnBayar.addEventListener('click', function() {
+        const selectedMetode = metodePembayaranDropdown.value;
+        let metode_bayar = '';
+
+        switch (selectedMetode) {
+            case 'transfer_bank':
+                metode_bayar = 'Transfer Bank';
+                break;
+            case 'credit_card':
+                metode_bayar = 'Kartu Kredit';
+                break;
+            case 'e_wallet':
+                metode_bayar = 'E-Wallet';
+                break;
+            default:
+                metode_bayar = 'Metode Pembayaran Tidak Valid';
+        }
+
+        document.getElementById('metodePembayaranInput').value = metode_bayar;
+
+        const namaPaket = document.querySelector('input[name="nama_paket"]').value;
+        const harga = document.querySelector('input[name="harga"]').value;
+        const resolusiLayar = document.querySelector('input[name="resolusi_layar"]').value;
+        const dukunganPerangkat = document.querySelector('input[name="dukungan_perangkat"]').value;
+
+        fetch('/langganan/process_payment/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                nama_paket: namaPaket,
+                harga: harga,
+                resolusi_layar: resolusiLayar,
+                dukungan_perangkat: dukunganPerangkat,
+                metode_pembayaran: metode_bayar
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                window.open('/berhasil_pembayaran/', '_blank');
+            } else {
+                console.error('Gagal melakukan pembayaran');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     });
 </script>
 {% endblock content %}

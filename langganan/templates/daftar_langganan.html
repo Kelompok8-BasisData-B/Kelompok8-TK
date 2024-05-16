@@ -46,12 +46,26 @@
     /* Handle on html */
     body {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+        flex-direction: column; /* Ensure content below navbar */
+        min-height: 100vh; /* Fill entire viewport height */
         margin: 0;
         padding: 0;
         font-family: Arial, sans-serif;
+    }
+    .container {
+        flex: 1; /* Fill remaining vertical space */
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+    th {
+        background-color: #2986cc;
+        padding: 5px;
+        color: white;
+    }
+    td {
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
     }
     table#subscriptionTable {
         width: 100%;
@@ -69,6 +83,9 @@
     table#subscriptionTable th {
         background-color: #2986cc;
         color: white;
+    }
+    select {
+        margin-bottom: 10px;
     }
     h1 {
         text-align: center; 
@@ -110,14 +127,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Subscription 1</td>
-                <td>$19.99</td>
-                <td>1080p</td>
-                <td>Laptop, HP</td>
-                <td>2022-01-01</td>
-                <td>2022-12-31</td>
-            </tr>
+            {% comment %} Ini belum disesuaiin sm pengguna yang udah login {% endcomment %}
+            {% for active in activate_package %}
+                <tr>
+                    <td>{{ active.nama }}</td>
+                    <td>{{ active.harga }}</td>
+                    <td>{{ active.resolusi_layar }}</td>
+                    <td>{{ active.dukungan_perangkat }}</td>
+                    <td>{{ active.start_date }}</td>
+                    <td>{{ active.end_date }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
     <br>
@@ -133,27 +153,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Premium</td>
-                <td>15000</td>
-                <td>720p</td>
-                <td>Laptop, HP</td>
-                <td><a href="/langganan/buy/"><button class="buy-button">Beli</button></td>
-            </tr>
-            <tr>
-                <td>Standar</td>
-                <td>100000</td>
-                <td>360p</td>
-                <td>Laptop</td>
-                <td><button class="buy-button">Beli</button></td>
-            </tr>
-            <tr>
-                <td>Basic</td>
-                <td>50000</td>
-                <td>1080p</td>
-                <td>Laptop, HP</td>
-                <td><button>Beli</button></td>
-            </tr>
+            {% for paket in paket %}
+                <tr>
+                    <td>{{ paket.nama_paket }}</td>
+                    <td>{{ paket.harga }}</td>
+                    <td>{{ paket.resolusi_layar }}</td>
+                    <td>{{ paket.dukungan_perangkat }}</td>
+                    <td><a href="/langganan/buy/?paket={{ paket.nama_paket }}&harga={{ paket.harga }}&resolusi_layar={{ paket.resolusi_layar }}&dukungan_perangkat={{ paket.dukungan_perangkat }}"><button class="buy-button">Beli</button></td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
     <br>
@@ -169,15 +177,19 @@
                 <th>Total Pembayaran</th>
             </tr>
         </thead>
+
         <tbody>
-            <tr>
-                <td>Premium</td>
-                <td>2022-01-01</td>
-                <td>2022-12-31</td>
-                <td>Transfer Bank</td>
-                <td>2022-01-01</td>
-                <td>150000</td>
-            </tr>
+            {% comment %} Ini belum disesuaiin sm pengguna yang udah login {% endcomment %}
+            {% for item in riwayat_transaksi %}
+                <tr>
+                    <td>{{ item.nama_paket }}</td>
+                    <td>{{ item.start_date_time }}</td>
+                    <td>{{ item.end_date_time }}</td>
+                    <td>{{ item.metode_pembayaran }}</td>
+                    <td>{{ item.timestamp_pembayaran }}</td>
+                    <td>{{ item.total_pembayaran }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

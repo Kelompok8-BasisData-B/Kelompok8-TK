@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block meta %}
-<title>Daftar Kontributor</title>
+<title>Halaman Beli</title>
 {% endblock meta %}
 
 {% block content %}
 <style>
-   .custom-scrollbar::-webkit-scrollbar {
+    .custom-scrollbar::-webkit-scrollbar {
         width: 2px;
     }
 
@@ -92,73 +92,49 @@
         font-weight: bold; 
         font-size: 2rem; 
     }
+    h2 {
+        font-size: 1.5rem; 
+    }
+    button {
+        background-color: #2986cc;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0.5rem 1rem; /* Increased padding for a better button appearance */
+        text-align: center;
+        text-decoration: none;
+        width: 100%;
+    }
+    .center-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; /* Center horizontally */
+        height: 100vh; /* Ensure container takes full height of viewport */
+    }
 </style>
 
 {% include "navbar.html" %}
-<div class="container">
-    <h1 style="margin-top: 100px;">DAFTAR KONTRIBUTOR</h1>
-    <div>
-        <select id="tipe-filter">
-            <option value="">Semua Tipe</option>
-            <option value="Pemain">Pemain</option>
-            <option value="Sutradara">Sutradara</option>
-            <option value="Penulis Skenario">Penulis Skenario</option>
-        </select>
+<div class="center-content">
+    <div id="notification-success" style="display: none;">Transaction successful! Enjoy your new package.</div>
+    <div id="notification-failed" style="display: none;">Transaction failed. Sorry, you are only allowed to select one subscription plan at a time. You can change your plan options at a later date and will need to re-pay according to the plan chosen.</div> 
 
-        <table id="subscriptionTable">
-            <thead>
-                    <tr>
-                    <th>Nama</th>
-                    <th>Tipe</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Kewarganegaraan</th>
-                    </tr>
-            </thead>
-            <tbody>
-                {% for item in result %}
-                <tr>
-                    <td>{{ item.nama }}</td>
-                    <td>{{ item.tipe }}</td>
-                    <td>{{ item.jenis_kelamin }}</td>
-                    <td>{{ item.kewarganegaraan }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-     </table>
-    </div>
+    <br>
+    <br>
+        <a href="/langganan/main/"><button id="backButton">Back to Langganan</button></a>
 </div>
-  
-<script>
-    const tipeFilter = document.getElementById("tipe-filter");
-    const allRows = Array.from(document.querySelectorAll("#subscriptionTable tbody tr"));
-    const rowsByType = {};
 
-    allRows.forEach(row => {
-        const type = row.cells[1].textContent.trim();
-        if (!rowsByType[type]) {
-            rowsByType[type] = [];
-        }
-        rowsByType[type].push(row);
+<script> 
+    document.addEventListener("DOMContentLoaded", function() {
+        var checkTimeAdd = "{{ check_time_add }}"; 
+        if (checkTimeAdd === "True") { 
+            document.getElementById("notification-success").style.display = "block"; 
+        } else { 
+            document.getElementById("notification-failed").style.display = "block"; 
+        } 
     });
-
-    function toggleRows(selectedType) {
-        Object.values(rowsByType).forEach(rows => {
-            rows.forEach(row => {
-                if (selectedType === "" || row.cells[1].textContent.trim() === selectedType) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
-            });
-        });
-    }
-
-    tipeFilter.addEventListener("change", () => {
-        const selectedType = tipeFilter.value;
-        toggleRows(selectedType);
-    });
-
-    tipeFilter.dispatchEvent(new Event("change"));
-</script>
-
+</script> 
 {% endblock content %}
+

@@ -1,5 +1,5 @@
 from django.urls import path
-from authentication.views import landing, login_view, register_view, logout_view
+from authentication.views import landing, login_view, logout_view, register_view
 
 app_name = 'authentication'
 

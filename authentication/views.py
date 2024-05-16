@@ -1,76 +1,51 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from django.contrib.auth import logout
-
-from django.contrib.auth import authenticate, login
-from django import forms
-from django.contrib.auth.models import User
-# from django.contrib.auth.forms import AuthenticationForm
-# from django.contrib.auth.decorators import login_required
+from django.db import connection, InternalError
+from django.contrib import messages
 
 # Create your views here.
 def landing(request):
     return render(request, 'landing.html')
 
 def login_view(request):
+     context = {}
      if request.method == 'POST':
           username = request.POST.get('username')
           password = request.POST.get('password')
-          user = authenticate(request, username=username, password=password)
+
+          print(username)
+          with connection.cursor() as cursor:
+               cursor.execute(f"""SELECT username, password FROM "PENGGUNA" WHERE username = %s AND password = %s""", 
+                              [username, password])
+               user = cursor.fetchone()
+          
           if user is not None:
-               login(request, user)
-               return redirect('daftar_kontributor:show_main')
+               request.session['username'] = username
+               response = redirect('tayangan:show_tayangan')
+               response.set_cookie('username', username)
+               return response
           else:
-               messages.info(request, 'Username atau password yang Anda masukkan salah! Silahkan coba lagi')
-     context = {}
+               context['error'] = "Username atau password tidak ditemukan"
+               messages.error(request, "Username atau password tidak ditemukan")
      return render(request, 'login_page.html', context)
 
-class RegisterForm(forms.ModelForm):
-     username = forms.CharField(max_length=50, required=True)
-     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-     negara_asal = forms.CharField(max_length=50, required=True)
-
-     class Meta:
-          model = User
-          fields = ('username', 'password', 'negara_asal')
-
 def register_view(request):
-     form = RegisterForm()
-
      if request.method == "POST":
-          form = RegisterForm(request.POST)
-          if form.is_valid():
-               user = form.save(commit=False)
-               user.set_password(form.cleaned_data['password'])
-               user.save()
-               messages.success(request, 'Akun Anda berhasil dibuat!')
-               return redirect('authentication:landing')
-     context = {'form':form}
-     return render(request, 'register_page.html', context)
+          username = request.POST['username']
+          password = request.POST['password']
+          negara_asal = request.POST['negara_asal']
+          
+          cursor = connection.cursor()
+          try:
+               cursor.execute(f"""
+                    INSERT INTO "PENGGUNA" VALUES ('{username}', '{password}', '{negara_asal}');
+               """)
+               messages.success(request, 'Registrasi berhasil! Silahkan login')
+          except InternalError as e:
+               if 'Username' in str(e):
+                    messages.error(request, f"Username {username} sudah terdaftar!")
+     return render(request, 'register_page.html')
 
 def logout_view(request):
      logout(request)
      return redirect('authentication:landing')
-
-# from django.shortcuts import render, redirect
-# from django.contrib import messages
-# from django.contrib.auth import logout
-
-# from django.contrib.auth import authenticate, login
-# from django import forms
-# from django.contrib.auth.models import User
-# # from django.contrib.auth.decorators import login_required
-
-# # Create your views here.
-# def landing(request):
-#     return render(request, 'landing.html')
-
-# def login_view(request):
-#      return render(request, 'login_page.html')
-
-# def register_view(request):
-#      return render(request, 'register_page.html')
-
-# def logout_view(request):
-#      logout(request)
-#      return redirect('authentication:login_view')

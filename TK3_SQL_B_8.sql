@@ -1,3 +1,10 @@
+-- Kelompok 8
+-- Arya Lesmana - 2206081603
+-- Rena Martha Ulima - 2206818783
+-- Fikri Risyad Indratno - 2206031170
+-- Sabrina Atha Shania - 2206829591
+
+
 -- PENGGUNA --
 CREATE TABLE PENGGUNA(
     username VARCHAR(50) PRIMARY KEY,
@@ -29,7 +36,7 @@ CREATE TABLE TRANSACTION(
     end_date_time DATE,
     nama_paket VARCHAR(50),
     metode_pembayaran VARCHAR(50) NOT NULL,
-    timestamp_pembayaran TIMESTAMP NOT NULL,
+    timestamp_pembayaran DATETIME NOT NULL,
     PRIMARY KEY (username, start_date_time), 
     FOREIGN KEY (username) REFERENCES PENGGUNA(username) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (nama_paket) REFERENCES PAKET(nama) ON UPDATE CASCADE ON DELETE CASCADE
@@ -328,27 +335,7 @@ INSERT INTO CONTRIBUTORS VALUES ('8fa38df9-4c2b-3bef-a2a6-01097e2c4e05','Travon 
 	('2f5c5214-23ed-3c3c-9aa0-7f2fb6dbd9e1','Alverta Huels',1.0,'Reunion'),
 	('72b185ad-40f1-31b2-90a9-820989f8214a','Cindy Kutch',1.0,'Nicaragua'),
 	('4feab376-758d-30c2-b656-83ca796f9c04','Renee Russel',1.0,'El Salvador'),
-	('ffe3af0c-14ba-328c-9c0a-84e07b7532cc','Alta Ernser',0.0,'Macao'),
-	('8a2d3b36-499e-3358-90c5-85c2cec418fc','Frieda Rau',1.0,'Macao'),
-	('0bba211c-4b7d-35c2-9700-8a4ffc99e453','Lorna Fisher',1.0,'Turkey'),
-	('877b6c42-acab-39b4-8cd5-8c46443e82d9','Bart Abbott DVM',0.0,'Honduras'),
-	('f82a6789-ca74-3c03-9bd8-8d0f0a2e0c69','Perry Wintheiser',1.0,'Korea'),
-	('15254dd9-9ad9-3025-9799-91f66ce35bc0','Maynard Bergnaum',1.0,'Burundi'),
-	('9568257e-50fd-348e-a0d5-92324a340082','Jules Gerlach',1.0,'Ireland'),
-	('f3aa7b01-8871-3eee-9585-9449451975d6','Sidney Ebert',1.0,'Honduras'),
-	('6587c181-50b6-326f-94c4-95ade22954e3','Lisette Hamill',0.0,'Slovakia (Slovak Republic)'),
-	('7c752282-81f6-30b7-8802-97702ab76fc3','Prof. Kailyn Lubowitz II',1.0,'Cameroon'),
-	('b43ffb8b-3eb4-3ce7-b136-98a77e967820','Ericka Johnston',0.0,'Falkland Islands (Malvinas)'),
-	('627b72a5-6b3f-3ac6-9b8e-9b3c68d776f0','Florida Hilll IV',1.0,'Armenia'),
-	('32bae4d1-5531-3176-84cb-9b427228dc60','Leola Stracke',0.0,'Zambia'),
-	('45cb9676-cb77-31b2-ab2f-9d4d7f9d70a7','Zack Tillman DVM',1.0,'Suriname'),
-	('7ad78dcd-a2e3-3234-9475-9d86e48d8a8b','Dr. Allene Wehner',1.0,'Thailand'),
-	('d9e43365-ca23-3028-8817-a0291c47fcbe','Miss Laurie Jones PhD',1.0,'Reunion'),
-	('0c728e23-59da-3bd4-a496-a0567d2a3145','Kenna Mayer',1.0,'Martinique'),
-	('87c78805-c924-32dd-963e-a1f4a6f0b6c9','Albin Collier',1.0,'Estonia'),
-	('74085c98-f74d-32c4-a293-a48445050b26','Prof. Jalon Hauck',0.0,'Gabon'),
-	('5940abe4-28e9-3c35-90ed-a4898173e991','Mrs. Ludie Langosh',1.0,'Japan'),
-	('b8c16296-2d5d-3fd8-8471-a7bcbbe5038f','Athena O''Keefe I',1.0,'Timor-Leste');
+	('ffe3af0c-14ba-328c-9c0a-84e07b7532cc','Alta Ernser',0.0,'Macao');
 
 -- INSERT PENULIS SKENARIO -- 
 INSERT INTO PENULIS_SKENARIO VALUES ('8fa38df9-4c2b-3bef-a2a6-01097e2c4e05'),
