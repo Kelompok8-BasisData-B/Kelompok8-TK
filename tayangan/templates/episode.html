@@ -53,48 +53,24 @@
   <h1 class="title">HALAMAN EPISODE</h1>
   <div class="col">
     <div class="row-md-8">
-      <h2>Judul: <span id="judul"></span></h2>
-      <p><b>Sub Judul</b>: <span id="subJudul"></span></p>
+      <h2>Judul: <span id="judul">{{ episode.judul }}</span></h2>
+      <p><b>Sub Judul</b>: <span id="subJudul">{{ episode.sub_judul }}</span></p>
       <button class="btn btn-primary mb-2" id="btnTonton">Tonton</button>
       <p><b>Episode lainnya</b>:</p>
       <ul class="list-disc pl-4" id="episode">
+        {% for item in other_episodes %}
+        <li><a href="/tayangan/series/{{ item.url }}">{{ item.sub_judul }}</a></li>
+        {% endfor %}
       </ul>
-      <p><b>Sinopsis Episode:</b> <span id="sinopsis"></span></p>
-      <p><b>Durasi Episode:</b> <span id="durasi"></span></p>
-      <p><b>URL Episode:</b> <a href="#" id="urlEpisode">link</a></p>
-      <p><b>Tanggal Rilis Episode:</b> <span id="tanggalRilis"></span></p>
+      <p><b>Sinopsis Episode:</b> <span id="sinopsis">{{ episode.sinopsis }}</span></p>
+      <p><b>Durasi Episode:</b> <span id="durasi"></span>{{ episode.durasi }}</p>
+      <p><b>URL Episode:</b> <a href="{{ episode.url_video}}" id="urlEpisode">{{ episode.sub_judul }}</a></p>
+      <p><b>Tanggal Rilis Episode:</b> <span id="tanggalRilis">{{ episode.release_date }}</span></p>
     </div>
   </div>
 </div>
 
 <script>
-    var data = {
-            judul: "Beef",
-            subJudul: "episode 1",
-            episode: [,
-                {subJudul: "episode 2", url: "https://google.com"},
-                {subJudul: "episode 3", url: "https://google.com"}
-            ],
-            sinopsis: "abcdefgh",
-            durasi: "81",
-            urlEpisode: "https://www.google.com",
-            tanggalRilis: "1 Januari 2024",
-        };
-
-        document.getElementById("judul").innerText = data.judul;
-        document.getElementById("subJudul").innerText = data.subJudul;
-        document.getElementById("sinopsis").innerText = data.sinopsis;
-        document.getElementById("durasi").innerText = data.durasi;
-        document.getElementById("urlEpisode").href = data.urlEpisode;
-        document.getElementById("tanggalRilis").innerText = data.tanggalRilis;
-
-        var episodeList = document.getElementById("episode");
-        data.episode.forEach(function (episodeItem) {
-            var li = document.createElement("li");
-            li.innerHTML = '<a href="' + episodeItem.url + '">' + episodeItem.subJudul + '</a>';
-            episodeList.appendChild(li);
-        });
-
         document.getElementById("btnTonton").addEventListener("click", function () {
             console.log("Menonton film...");
         });

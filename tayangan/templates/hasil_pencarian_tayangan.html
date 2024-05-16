@@ -19,6 +19,14 @@
         margin-top: 50px;
         margin-bottom: 30px;
     }
+  
+    .empty {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: large;
+      font-weight: 600;
+    }
 </style>
 
 {% include "navbar.html" %}
@@ -26,10 +34,11 @@
     <h1 class="title">HASIL PENCARIAN</h1>
   
     <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Judul tayangan" aria-label="Judul tayangan">
+      <input type="text" class="form-control" placeholder="Judul tayangan" aria-label="Judul tayangan" id="searchBar">
       <button class="btn btn-primary" type="button" id="search">Search</button>
     </div>
   
+    {% if tayangan %}
     <table class="table">
       <thead>
         <tr>
@@ -41,46 +50,34 @@
         </tr>
       </thead>
       <tbody>
+        {% for item in tayangan %}
         <tr>
-          <td>Judul 1</td>
-          <td>A B C</td>
-          <td>https://www.google.com/</td>
-          <td>2023-07-21</td>
+          <td>{{ item.judul }}</td>
+          <td>{{ item.sinopsis_trailer }}</td>
+          <td>{{ item.url_video_trailer }}</td>
+          <td>{{ item.release_date_trailer }}</td>
           <td>
-            <a href="/tayangan/series" class="text-white hover:text-gray-300 me-2">
-              <button class="btn btn-primary">Tombol ke Tayangan</button>
+            {% if paket.is_valid == 1 %}
+            <a href="/tayangan/film/{{ item.id }}" class="text-white hover:text-gray-300 me-2">
+              <button type="button" class="btn btn-primary mb-2">Tombol ke Tayangan</button>
             </a>
-        </td>
+            {% endif %}
+          </td>
         </tr>
-        <tr>
-          <td>Judul 2</td>
-          <td>D E F</td>
-          <td>https://www.google.com/</td>
-          <td>2023-07-22</td>
-          <td>
-            <a href="/tayangan/series" class="text-white hover:text-gray-300 me-2">
-              <button class="btn btn-primary">Tombol ke Tayangan</button>
-            </a>
-        </td>
-        </tr>
-        <tr>
-          <td>Judul 3</td>
-          <td>G H I</td>
-          <td>https://www.google.com/</td>
-          <td>2023-07-23</td>
-          <td>
-            <a href="/tayangan/series" class="text-white hover:text-gray-300 me-2">
-              <button class="btn btn-primary">Tombol ke Tayangan</button>
-            </a>
-        </td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
+    {% else %}  
+    <div class="empty">Tidak ditemukan tayangan yang sesuai</div>
+    {% endif %}
   </div>
 
   <script>
-    document.getElementById("search").addEventListener("click", function() {
-      window.location.href = "/hasil-pencarian-tayangan";
-    });
+  document.getElementById('search').addEventListener('click', function() {
+    const searchValue = document.getElementById('searchBar').value;
+    const encodedValue = encodeURIComponent(searchValue).replace(/'/g, "%27");
+    const searchUrl = `/hasil-pencarian-tayangan/${encodedValue}/`;
+    window.location.href = searchUrl;
+  });
   </script>
 {% endblock content %}
