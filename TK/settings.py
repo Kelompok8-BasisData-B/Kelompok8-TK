@@ -92,7 +92,7 @@ DATABASES = {
     }
 }
 
-DATABASE_URL='postgres://postgres.wxatwyksdgcaxmdskhbg:[YOUR-PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres'
+DATABASE_URL='postgres://postgres.wxatwyksdgcaxmdskhbg:mamimumemolalilulelo@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
