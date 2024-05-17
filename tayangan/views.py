@@ -201,7 +201,8 @@ def show_film(request, id):
     
     ulasan = query_result(f"""SELECT username, rating, deskripsi
                               FROM "ULASAN"
-                              WHERE id_tayangan = '{id}';""")
+                              WHERE id_tayangan = '{id}'
+                              ORDER BY timestamp DESC;""")
 
     released = query_result(f"""SELECT
                                     CASE
@@ -254,7 +255,8 @@ def show_series(request, id):
     
     ulasan = query_result(f"""SELECT username, rating, deskripsi
                               FROM "ULASAN"
-                              WHERE id_tayangan = '{id}';""")
+                              WHERE id_tayangan = '{id}'
+                              ORDER BY timestamp DESC;""")
     
     episode = query_result(f"""SELECT id_series, sub_judul
                                FROM "EPISODE"
