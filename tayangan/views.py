@@ -1,3 +1,5 @@
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.shortcuts import render
 from django.contrib import messages
 from django.db import connection, InternalError
 from django.http import HttpResponseRedirect
@@ -5,6 +7,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from function.general import *
 from urllib.parse import quote
+import datetime
 
 def show_trailer(request):
     if 'username' in request.session and 'username' in request.COOKIES:
@@ -212,13 +215,26 @@ def show_film(request, id):
                                 FROM "FILM"
                                 WHERE id_tayangan = '{id}';""")
     
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT DISTINCT judul
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}'
+                           """)
+        hasil_judul_daftar_favorit = cursor.fetchall()
+        list_daftar_favorit = []
+        for row in hasil_judul_daftar_favorit:
+            list_daftar_favorit.append(row[0])
+    
     context = {'film': film[0],
                'pemain': pemain,
                'penulis': penulis,
                'view': view[0],
                'rating': rating[0],
                'ulasan': ulasan,
-               'released': released[0]}
+               'released': released[0],
+               'list_daftar_favorit': list_daftar_favorit
+               }
     
     return render(request, 'film.html', context)
 
@@ -311,6 +327,220 @@ def show_episode(request, id, sub_judul):
                'released': released[0]}
 
     return render(request, 'episode.html', context)
+
+def tambah_ke_daftar_favorit(request, id, judul):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+
+def unduh_tayangan(request, id):
+    username = request.COOKIES.get('username')
+    
+    if username:
+        current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with connection.cursor() as cursor:
+            cursor.execute(f"""
+                    INSERT INTO "TAYANGAN_TERUNDUH" VALUES ('{id}', '{username}', '{current_time}');
+                """)
+            return HttpResponse(status=200)
+
+    else:
+        return HttpResponseBadRequest('User not authenticated')
+
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
+def tambah_ke_daftar_favorit(request, judul, id):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}'
+                       """)
+    return JsonResponse({'message': 'Successfully added to favorites'})
+# Or return any other response as needed
+def tambah_ke_daftar_favorit(request, id, judul):
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT timestamp
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}' AND judul = '{judul}'
+                        """)
+        timestamp = cursor.fetchall()
+        timestamp_output = timestamp[0][0]
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}')
+                       """)
+        
+    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
 
 def add_ulasan(request):
     if 'username' not in request.session or 'username' not in request.COOKIES:

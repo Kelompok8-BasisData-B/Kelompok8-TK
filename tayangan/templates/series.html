@@ -79,8 +79,9 @@
         {% endfor %}
       </ul>
       <div class="btn-group" role="group">
-        <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal">Unduh Tayangan</button>
-        <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button>
+        <a href="{% url 'tayangan:unduh_tayangan' item.id %}">
+            <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal" data-id= "{{ item.id }}">Unduh Tayangan
+        </a>
       </div>
       <p><b>Total View:</b> <span id="totalView">{{ view.count }}</span></p>
       <p><b>Rating Rata-Rata:</b> <span id="rating">{{ rating.avg }}</span></p>
@@ -111,13 +112,15 @@
                 <div class="modal-body">
                     <select class="form-select mb-3" id="dropdown-favorite">
                         <option value="select-daftar-favorit">Judul Daftar Favorit: </option>
-                        <option value="favorit1">Daftar Favorit 1</option>
-                        <option value="favorit2">Daftar Favorit 2</option>
-                        <option value="favorit3">Daftar Favorit 3</option>
+                        {% for judul_daftar in list_daftar_favorit %}
+                        <option value="{{ judul_daftar }}">{{ judul_daftar }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary" id="button_add_favorite" data-bs-dismiss="modal">Tambah</button>
+                    <a id="link_add_favorite" href="#">
+                        <button type="button" class="btn btn-primary" id="button_add_favorite" data-bs-dismiss="modal">Tambah</button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -129,14 +132,12 @@
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="downloadModalLabelTitle">SUKSES MENAMBAHKAN TAYANGAN KE DAFTAR UNDUHAN</h1>
                 </div>
-                <div class="modal-body">
-                    <p>Selamat! Anda telah berhasil mengunduh [Judul Tayangan] dan akan
-                        berlaku hingga [current time + 7 hari]. Cek informasi selengkapnya
-                        pada halaman daftar unduhan.
+                <div class="modal-body" id="downloadModalBody">
+                    <p>
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <a href="/daftar-favorit/fav/" class="text-white hover:text-gray-300 me-2">Daftar Favorit
+                    <a href="{% url 'daftar_unduhan:show_download'%}" class="text-white hover:text-gray-300 me-2">
                         <button type="button" class="btn btn-primary mb-2">Daftar Unduhan</button>
                     </a>
                 </div>
@@ -187,13 +188,30 @@
 </div>
 
 <script>
+    document.getElementById("btnTonton").addEventListener("click", function () {
+            console.log("Menonton film...");
+        });
+
         document.getElementById("btnUnduh").addEventListener("click", function () {
-            console.log("Mengunduh tayangan...");
+            var date = new Date();
+            date.setDate(date.getDate() + 7);
+            document.getElementById("downloadModalBody").innerHTML = "Selamat! Anda telah berhasil mengunduh " + document.getElementById("judul").innerHTML + " dan akan berlaku hingga " + date.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric' }) + ". Cek informasi selengkapnya pada halaman daftar unduhan.";
+            
         });
 
         document.getElementById("btnFavorit").addEventListener("click", function () {
             console.log("Menambahkan ke favorit...");
         });
+
+        document.getElementById('button_add_favorite').addEventListener('click', function() {
+        // Get the selected value from the dropdown
+        var dropdown = document.getElementById('dropdown-favorite');
+        var selectedJudul = dropdown.options[dropdown.selectedIndex].value;
+        
+        var url = encodeURIComponent(selectedJudul) + "/";
+
+        document.getElementById('link_add_favorite').setAttribute('href', url);
+    });
 
         document.getElementById("btnSubmit").addEventListener("click", function() {
             var inputRating = document.getElementById("inputRating").value;
@@ -203,7 +221,6 @@
             }
 
             console.log("Rating: " + inputRating);
-            // ...
         });
 
         document.getElementById("button_add_favorite").addEventListener("click", function() {

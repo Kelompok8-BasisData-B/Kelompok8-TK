@@ -113,36 +113,31 @@
         <table id="favoriteTable">
         <thead>
             <tr>
-                <th class="top-header" colspan="3">Daftar Favorit Old Film</th>
+                <th class="top-header" colspan="3">Daftar Favorit</th>
             </tr>
         </thead>
         <thead>
                 <th>Judul</th>
-                <th>Waktu Ditambahkan</th>
+                <th>Waktu Dibuat</th>
                 <th>Aksi</th>
         </thead>
         <tbody>
+                {% for i, j in detail_daftar_favorit %}
                 <tr>
-                    <td>Godzilla Minus One</td>
-                    <td>27/04/2024</td>
+                    <td> 
+                    <a href="{% url 'daftar_favorit:show_film_in_daftar_favorite' i %}">
+                        {{ i }} 
+                    </a>
+                    </td>
+                    
+                    <td> {{ j }} </td>
                     <td>
-                      <button type="button" class="delete-button">Hapus</button>
+                        <a href="{% url 'daftar_favorit:delete_daftar_favorite' i%}">
+                            <button type="button" class="delete-button" id="btn-hapus" onclick="return confirm('Are you sure?');">Hapus</button>
+                        </a>
                     </td>
                 </tr>
-                <tr>
-                  <td>Oppenheimer</td>
-                  <td>01/05/2023</td>
-                  <td>
-                    <button type="button" class="delete-button">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Beef</td>
-                  <td>02/05/2023</td>
-                  <td>
-                    <button type="button" class="delete-button">Hapus</button>
-                  </td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
