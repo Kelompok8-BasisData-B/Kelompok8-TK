@@ -72,6 +72,10 @@
   <div class="col">
     <div class="row-md-8">
       <h2>Judul: <span id="judul">{{ series.judul }}</span></h2>
+      <a href="{% url 'tayangan:unduh_tayangan' series.id %}">
+          <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal" data-id= "{{ series.id }}">Unduh Tayangan
+      </a>
+      <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button> 
       <p><b>Episode:</b></p>
       <ul class="list-disc pl-4" id="episode">
         {% for item in episode %}
@@ -79,10 +83,6 @@
         {% endfor %}
       </ul>
       <div class="btn-group" role="group">
-        <a href="{% url 'tayangan:unduh_tayangan' item.id %}">
-            <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal" data-id= "{{ item.id }}">Unduh Tayangan
-        </a>
-      </div>
       <p><b>Total View:</b> <span id="totalView">{{ view.count }}</span></p>
       <p><b>Rating Rata-Rata:</b> <span id="rating">{{ rating.avg }}</span></p>
       <p><b>Sinopsis:</b> <span id="sinopsis">{{ series.sinopsis }}</span></p>
@@ -118,7 +118,7 @@
                     </select>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <a id="link_add_favorite" href="#">
+                    <a id="link_add_favorite" href="">
                         <button type="button" class="btn btn-primary" id="button_add_favorite" data-bs-dismiss="modal">Tambah</button>
                     </a>
                 </div>
@@ -188,43 +188,33 @@
 </div>
 
 <script>
-    document.getElementById("btnTonton").addEventListener("click", function () {
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.getElementById("btnTonton").addEventListener("click", function () {
             console.log("Menonton film...");
         });
-
+    
         document.getElementById("btnUnduh").addEventListener("click", function () {
             var date = new Date();
             date.setDate(date.getDate() + 7);
             document.getElementById("downloadModalBody").innerHTML = "Selamat! Anda telah berhasil mengunduh " + document.getElementById("judul").innerHTML + " dan akan berlaku hingga " + date.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric' }) + ". Cek informasi selengkapnya pada halaman daftar unduhan.";
-            
         });
-
-        document.getElementById("btnFavorit").addEventListener("click", function () {
-            console.log("Menambahkan ke favorit...");
+    
+        document.getElementById('dropdown-favorite').addEventListener('click', function(e) {
+            var selected_daftar = e.target.options[e.target.selectedIndex].value;
+            var judul_film = document.getElementById('judul').innerHTML;
+            var url = 'favorit-series/' + judul_film + '/' + selected_daftar + '/';
+            document.getElementById('link_add_favorite').setAttribute('href', url);
         });
-
-        document.getElementById('button_add_favorite').addEventListener('click', function() {
-        // Get the selected value from the dropdown
-        var dropdown = document.getElementById('dropdown-favorite');
-        var selectedJudul = dropdown.options[dropdown.selectedIndex].value;
-        
-        var url = encodeURIComponent(selectedJudul) + "/";
-
-        document.getElementById('link_add_favorite').setAttribute('href', url);
-    });
-
+    
         document.getElementById("btnSubmit").addEventListener("click", function() {
             var inputRating = document.getElementById("inputRating").value;
             if (isNaN(inputRating) || inputRating < 0 || inputRating > 10) {
                 alert("Rating harus dalam rentang 0-10");
                 return false;
             }
-
+    
             console.log("Rating: " + inputRating);
         });
-
-        document.getElementById("button_add_favorite").addEventListener("click", function() {
-            document.getElementById("dropdown-favorite").selectedIndex = 0;
-        });
+    });
 </script>
 {% endblock content %}
