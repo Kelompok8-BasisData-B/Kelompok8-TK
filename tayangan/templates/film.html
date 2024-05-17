@@ -59,6 +59,15 @@
         margin-top: 20px;
         margin-bottom: 10px;
     }
+
+    .message-container {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: large;
+        font-weight: 600;
+        color: red;
+    }
 </style>
 
 {% include "navbar.html" %}
@@ -70,12 +79,28 @@
       <h2>Judul: <span id="judul">{{ film.judul }}</span></h2>
       {% if released.is_released == 1 %}
       <div class="slider">
-          <input type="range">
+        <form id="progressForm" action="{% url 'tayangan:add_tonton' %}" method="post">
+            {% csrf_token %}  
+            <input type="hidden" name="id" value="{{ film.id }}">
+            <input type="hidden" name="tipe" value="film">
+            <input type="hidden" name="durasi" value="{{ film.durasi_film }}">
+            <label for="progress" class="form-label"><b>Progress:</b></label>
+            <input type="range" class="form-range" name="progress" id="progress">
+        </form>
+      </div>
+      {% endif %}
+      {% if messages %}
+      <div class="message-container">
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
       </div>
       {% endif %}
       <div class="btn-group" role="group">
         {% if released.is_released == 1 %}
-        <button class="btn btn-primary mb-2" id="btnTonton">Tonton</button>
+        <button class="btn btn-primary mb-2" id="btnTonton" onclick="submitProgress()">Tonton</button>
         {% endif %}
         <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal">Unduh Tayangan</button>
         <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button>
@@ -149,18 +174,32 @@
     <div class="row-md-4">
         <h2 class="title">BAGIAN ULASAN</h2>
         <div class="form-group">
-            <div class="row">
-                <div class="col-md-8">
-                    <input type="text" class="form-control mb-2" id="inputUlasan" placeholder="Deskripsi Ulasan">
+            <form action="{% url 'tayangan:add_ulasan' %}" method="post">
+                {% csrf_token %}  
+                <input type="hidden" name="id" value="{{ film.id }}">
+                <input type="hidden" name="tipe" value="film">
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control mb-2" id="inputUlasan" name="deskripsi" placeholder="Deskripsi Ulasan" maxlength="255" required>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" class="form-control mb-2" id="inputRating" name="rating" placeholder="Rating (1-10)" min="1" max="10" required>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary mb-2" id="btnSubmit">Submit</button>
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <input type="number" class="form-control mb-2" id="inputRating" placeholder="Rating (1-10)" min="0" max="10">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary mb-2" id="btnSubmit">Submit</button>
-                </div>
-            </div>
+            </form>
         </div>
+        {% if messages %}
+        <div class="message-container">
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
         <h5><b>Daftar Ulasan:</b></h5>
         <ul class="list-disc pl-4" id="daftarUlasan">
             {% for item in ulasan %}
@@ -176,9 +215,9 @@
 </div>
 
 <script>
-        document.getElementById("btnTonton").addEventListener("click", function () {
-            console.log("Menonton film...");
-        });
+        function submitProgress() {
+            document.getElementById("progressForm").submit();
+        }
 
         document.getElementById("btnUnduh").addEventListener("click", function () {
             console.log("Mengunduh tayangan...");
@@ -186,17 +225,6 @@
 
         document.getElementById("btnFavorit").addEventListener("click", function () {
             console.log("Menambahkan ke favorit...");
-        });
-
-        document.getElementById("btnSubmit").addEventListener("click", function() {
-            var inputRating = document.getElementById("inputRating").value;
-            if (isNaN(inputRating) || inputRating < 0 || inputRating > 10) {
-                alert("Rating harus dalam rentang 0-10");
-                return false;
-            }
-
-            console.log("Rating: " + inputRating);
-            // ...
         });
 
         document.getElementById("button_add_favorite").addEventListener("click", function() {

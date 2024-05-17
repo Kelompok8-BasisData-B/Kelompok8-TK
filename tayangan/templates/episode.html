@@ -46,6 +46,15 @@
     .btn {
         margin-top: 10px;
     }
+
+    .message-container {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: large;
+        font-weight: 600;
+        color: red;
+    }
 </style>
 
 {% include "navbar.html" %}
@@ -55,7 +64,29 @@
     <div class="row-md-8">
       <h2>Judul: <span id="judul">{{ episode.judul }}</span></h2>
       <p><b>Sub Judul</b>: <span id="subJudul">{{ episode.sub_judul }}</span></p>
-      <button class="btn btn-primary mb-2" id="btnTonton">Tonton</button>
+      {% if released.is_released == 1 %}
+      <div class="slider">
+        <form id="progressForm" action="{% url 'tayangan:add_tonton' %}" method="post">
+            {% csrf_token %}  
+            <input type="hidden" name="id" value="{{ episode.id }}">
+            <input type="hidden" name="tipe" value="series">
+            <input type="hidden" name="subjudul" value="{{ episode.sub_judul }}">
+            <input type="hidden" name="durasi" value="{{ episode.durasi }}">
+            <label for="progress" class="form-label"><b>Progress:</b></label>
+            <input type="range" class="form-range" name="progress" id="progress">
+        </form>
+      </div>
+      <button class="btn btn-primary mb-2" id="btnTonton" onclick="submitProgress()">Tonton</button>
+      {% endif %}
+      {% if messages %}
+      <div class="message-container">
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+      </div>
+      {% endif %}
       <p><b>Episode lainnya</b>:</p>
       <ul class="list-disc pl-4" id="episode">
         {% for item in other_episodes %}
@@ -71,8 +102,8 @@
 </div>
 
 <script>
-        document.getElementById("btnTonton").addEventListener("click", function () {
-            console.log("Menonton film...");
-        });
+        function submitProgress() {
+            document.getElementById("progressForm").submit();
+        }
 </script>
 {% endblock content %}
