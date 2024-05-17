@@ -37,6 +37,10 @@
     <input type="text" class="form-control" placeholder="Judul tayangan" aria-label="Judul tayangan" id="searchBar" value="{{ searchvalue }}">
     <button class="btn btn-primary" type="button" id="search">Search</button>
   </div>
+
+  <a href="/" class="text-white hover:text-gray-300 me-2">
+    <button type="button" class="btn btn-primary mb-2">Back</button>
+  </a>
   
   {% if tayangan %}
   <table class="table">
@@ -67,9 +71,13 @@
 <script>
   document.getElementById('search').addEventListener('click', function() {
     const searchValue = document.getElementById('searchBar').value;
-    const encodedValue = encodeURIComponent(searchValue).replace(/'/g, "%27");
-    const searchUrl = `/hasil-pencarian-trailer/${encodedValue}/`;
-    window.location.href = searchUrl;
+    if (searchValue.length == 0) {
+      window.location.href = '/'
+    } else {
+      const encodedValue = encodeURIComponent(searchValue).replace(/'/g, "%27");
+      const searchUrl = `/hasil-pencarian-trailer/${encodedValue}/`;
+      window.location.href = searchUrl;
+    }
   });
 </script>
 {% endblock content %}
