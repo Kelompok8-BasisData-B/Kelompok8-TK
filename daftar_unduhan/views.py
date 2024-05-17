@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
-from django.db import DatabaseError, connection
+from django.db import DatabaseError, InternalError, connection
 from django.urls import reverse
 
 # Create your views here.
@@ -43,7 +43,7 @@ def hapus_unduhan(request, id):
                                 WHERE id_tayangan = '{id}'
                                 AND username = '{logged_in_username}'""")
                 return HttpResponseRedirect(reverse('daftar_unduhan:show_download'))
-            except DatabaseError:
+            except InternalError as e:
                 messages.add_message(request, messages.ERROR, 'Gagal menghapus tayangan dari daftar unduhan')
     else:
         return JsonResponse({'status': 'error', 'message': 'User not authenticated'}, status=401)
