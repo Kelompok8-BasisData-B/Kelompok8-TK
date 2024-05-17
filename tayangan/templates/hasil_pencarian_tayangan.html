@@ -75,9 +75,13 @@
   <script>
   document.getElementById('search').addEventListener('click', function() {
     const searchValue = document.getElementById('searchBar').value;
-    const encodedValue = encodeURIComponent(searchValue).replace(/'/g, "%27");
-    const searchUrl = `/hasil-pencarian-tayangan/${encodedValue}/`;
-    window.location.href = searchUrl;
+    if (searchValue.length == 0) {
+      window.location.href = '/tayangan/'
+    } else {
+      const encodedValue = encodeURIComponent(searchValue).replace(/'/g, "%27");
+      const searchUrl = `/hasil-pencarian-trailer/${encodedValue}/`;
+      window.location.href = searchUrl;
+    }
   });
   </script>
 {% endblock content %}

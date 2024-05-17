@@ -40,13 +40,6 @@
 
     .global {
       border-radius: 10px;
-      background-color: #0d6efd;
-      display: inline-block;
-    }
-
-    #globalButton {
-      margin: 5px;
-      color: white;
     }
 </style>
 
@@ -61,8 +54,8 @@
 
   <h2>10 Tayangan Terbaik Minggu Ini</h2>
 
-  <div class="global">
-    <button type="button" class="btn" id="globalButton">Global</button>
+  <div class="global bg-secondary text-white d-inline-block px-3 py-2">
+    Global
   </div>
 
   {% if top_10 %}
@@ -80,6 +73,7 @@
     <tbody>
       {% for item in top_10 %}
       <tr>
+        <td>{{ item.rank }}</td>
         <td>{{ item.judul }}</td>
         <td>{{ item.sinopsis_trailer }}</td>
         <td>{{ item.url_video_trailer }}</td>
@@ -142,9 +136,13 @@
 <script>
   document.getElementById('search').addEventListener('click', function() {
     const searchValue = document.getElementById('searchBar').value;
-    const encodedValue = encodeURIComponent(searchValue).replace(/'/g, "%27");
-    const searchUrl = `/hasil-pencarian-trailer/${encodedValue}/`;
-    window.location.href = searchUrl;
+    if (searchValue.length == 0) {
+      window.location.href = '/'
+    } else {
+      const encodedValue = encodeURIComponent(searchValue).replace(/'/g, "%27");
+      const searchUrl = `/hasil-pencarian-trailer/${encodedValue}/`;
+      window.location.href = searchUrl;
+    }
   });
 </script>
 {% endblock content %}
