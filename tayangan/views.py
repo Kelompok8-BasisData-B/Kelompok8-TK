@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from function.general import *
 from urllib.parse import quote
+import datetime
 
 def show_trailer(request):
     top_10 = query_result(f"""WITH all_duration AS (
@@ -130,7 +131,7 @@ def show_hasil_pencarian_tayangan(request, value):
     return render(request, 'hasil_pencarian_tayangan.html', context)
 
 def show_film(request, id):
-    film = query_result(f"""SELECT T.judul, T.sinopsis, T.asal_negara, F.url_video_film, F.release_date_film, F.durasi_film, G.genre, C.nama AS nama_sutradara
+    film = query_result(f"""SELECT T.id, T.judul, T.sinopsis, T.asal_negara, F.url_video_film, F.release_date_film, F.durasi_film, G.genre, C.nama AS nama_sutradara
                               FROM "FILM" AS F
                               JOIN "TAYANGAN" AS T ON T.id = F.id_tayangan
                               LEFT JOIN "GENRE_TAYANGAN" AS G ON G.id_tayangan = F.id_tayangan
@@ -259,11 +260,11 @@ def unduh_tayangan(request, id):
     username = request.COOKIES.get('username')
     
     if username:
+        current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         with connection.cursor() as cursor:
-            cursor.execute("""
-                INSERT INTO "TAYANGAN_TERUNDUH" (ID_TAYANGAN, USERNAME)
-                VALUES (%s, %s)
-            """, [id, username])
+            cursor.execute(f"""
+                    INSERT INTO "TAYANGAN_TERUNDUH" VALUES ('{id}', '{username}', '{current_time}');
+                """)
         
         return JsonResponse({'status': 'success'})
     else:

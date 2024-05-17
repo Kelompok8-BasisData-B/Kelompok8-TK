@@ -77,7 +77,10 @@
         {% if released.is_released == 1 %}
         <button class="btn btn-primary mb-2" id="btnTonton">Tonton</button>
         {% endif %}
-        <button class="btn btn-primary mb-2" id="btnUnduh" data-tayangan-id="{{ tayangan_id }}">Unduh Tayangan</button>
+        <a href="/unduh/{{ film.id }}/">
+            <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal" data-id= "{{ film.id }}">Unduh Tayangan
+        </a>
+        </button>
         <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button>
       </div>
       <p><b>Total View:</b> <span id="totalView">{{ view.count }}</span></p>
@@ -181,7 +184,7 @@
         });
 
         document.getElementById("btnUnduh").addEventListener("click", function () {
-            console.log("Mengunduh tayangan...");
+            
         });
 
         document.getElementById("btnFavorit").addEventListener("click", function () {
