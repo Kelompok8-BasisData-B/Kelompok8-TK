@@ -124,10 +124,16 @@
         <tbody>
                 {% for i, j in detail_daftar_favorit %}
                 <tr>
-                    <td> {{ i }} </td>
+                    <td> 
+                    <a href="{% url 'daftar_favorit:show_film_in_daftar_favorite' i %}">
+                        {{ i }} 
+                    </a>
+                    </td>
+                    
                     <td> {{ j }} </td>
                     <td>
-                        <button type="button" class="delete-button" id="btn-hapus" onclick="return confirm('Are you sure?');">Hapus</button>
+                            <button type="button" class="delete-button" id="btn-hapus" onclick="return confirm('Are you sure?');">Hapus</button>
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}

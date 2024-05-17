@@ -11,12 +11,11 @@ def show_favorite(request):
                 cursor.execute(f"""
                                SELECT df.judul, df.timestamp
                                FROM "DAFTAR_FAVORIT" df
-                               JOIN
-                                "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" tmf ON df.timestamp = tmf.timestamp AND df.username = tmf.username
                                 WHERE
                                 df.username = '{logged_in_username}'
                                """)
                 tayangan_favoritnya = cursor.fetchall()
+                print(tayangan_favoritnya)
                 judul_daftar_favorit = []
                 timestamp_daftar_favorit = []
                 for row in tayangan_favoritnya:
@@ -66,5 +65,15 @@ def delete_from_favorite(request, judul_daftar_favorit, id):
                            WHERE id_tayangan = '{id}'
                            AND username = '{logged_in_username}'
                            AND TIMESTAMP = (SELECT TIMESTAMP FROM "DAFTAR_FAVORIT" WHERE JUDUL = '{judul_daftar_favorit}' AND USERNAME = '{logged_in_username}')
+                           """)
+        return HttpResponse('Deleted from favorite', status=200)
+    
+def delete_daftar_favorite(request, judul):
+    with connection.cursor() as cursor:
+        logged_in_username = request.session.get('username')
+        cursor.execute(f"""DELETE FROM "DAFTAR_FAVORIT"
+                           WHERE judul = '{judul}'
+                           AND username = '{logged_in_username}'
+                           ON DELETE CASCADE
                            """)
         return HttpResponse('Deleted from favorite', status=200)
