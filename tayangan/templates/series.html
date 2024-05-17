@@ -70,8 +70,9 @@
         {% endfor %}
       </ul>
       <div class="btn-group" role="group">
-        <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal">Unduh Tayangan</button>
-        <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button>
+        <a href="{% url 'tayangan:unduh_tayangan' item.id %}">
+            <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal" data-id= "{{ item.id }}">Unduh Tayangan
+        </a>
       </div>
       <p><b>Total View:</b> <span id="totalView">{{ view.count }}</span></p>
       <p><b>Rating Rata-Rata:</b> <span id="rating">{{ rating.avg }}</span></p>
@@ -120,14 +121,12 @@
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="downloadModalLabelTitle">SUKSES MENAMBAHKAN TAYANGAN KE DAFTAR UNDUHAN</h1>
                 </div>
-                <div class="modal-body">
-                    <p>Selamat! Anda telah berhasil mengunduh [Judul Tayangan] dan akan
-                        berlaku hingga [current time + 7 hari]. Cek informasi selengkapnya
-                        pada halaman daftar unduhan.
+                <div class="modal-body" id="downloadModalBody">
+                    <p>
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <a href="/daftar-favorit/fav/" class="text-white hover:text-gray-300 me-2">Daftar Favorit
+                    <a href="{% url 'daftar_unduhan:show_download'%}" class="text-white hover:text-gray-300 me-2">
                         <button type="button" class="btn btn-primary mb-2">Daftar Unduhan</button>
                     </a>
                 </div>
@@ -164,27 +163,34 @@
 </div>
 
 <script>
-        document.getElementById("btnUnduh").addEventListener("click", function () {
-            console.log("Mengunduh tayangan...");
-        });
+    document.getElementById("btnTonton").addEventListener("click", function () {
+        console.log("Menonton film...");
+    });
 
-        document.getElementById("btnFavorit").addEventListener("click", function () {
-            console.log("Menambahkan ke favorit...");
-        });
+    document.getElementById("btnUnduh").addEventListener("click", function () {
+        var date = new Date();
+        date.setDate(date.getDate() + 7);
+        document.getElementById("downloadModalBody").innerHTML = "Selamat! Anda telah berhasil mengunduh " + document.getElementById("judul").innerHTML + " dan akan berlaku hingga " + date.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric' }) + ". Cek informasi selengkapnya pada halaman daftar unduhan.";
+        
+    });
 
-        document.getElementById("btnSubmit").addEventListener("click", function() {
-            var inputRating = document.getElementById("inputRating").value;
-            if (isNaN(inputRating) || inputRating < 0 || inputRating > 10) {
-                alert("Rating harus dalam rentang 0-10");
-                return false;
-            }
+    document.getElementById("btnFavorit").addEventListener("click", function () {
+        console.log("Menambahkan ke favorit...");
+    });
 
-            console.log("Rating: " + inputRating);
-            // ...
-        });
+    document.getElementById("btnSubmit").addEventListener("click", function() {
+        var inputRating = document.getElementById("inputRating").value;
+        if (isNaN(inputRating) || inputRating < 0 || inputRating > 10) {
+            alert("Rating harus dalam rentang 0-10");
+            return false;
+        }
 
-        document.getElementById("button_add_favorite").addEventListener("click", function() {
-            document.getElementById("dropdown-favorite").selectedIndex = 0;
-        });
+        console.log("Rating: " + inputRating);
+        // ...
+    });
+
+    document.getElementById("button_add_favorite").addEventListener("click", function() {
+        document.getElementById("dropdown-favorite").selectedIndex = 0;
+    });
 </script>
 {% endblock content %}
