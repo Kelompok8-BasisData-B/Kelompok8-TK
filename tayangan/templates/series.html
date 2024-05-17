@@ -55,6 +55,15 @@
       font-size: large;
       font-weight: 600;
     }
+
+    .message-container {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: large;
+        font-weight: 600;
+        color: red;
+    }
 </style>
 
 {% include "navbar.html" %}
@@ -139,18 +148,32 @@
     <div class="row-md-4 ulasan">
         <h2 class="title">BAGIAN ULASAN</h2>
         <div class="form-group">
-            <div class="row">
-                <div class="col-md-8">
-                    <input type="text" class="form-control mb-2" id="inputUlasan" placeholder="Deskripsi Ulasan">
+            <form action="{% url 'tayangan:add_ulasan' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ series.id }}">
+                <input type="hidden" name="tipe" value="series">
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control mb-2" id="inputUlasan" name="deskripsi" placeholder="Deskripsi Ulasan" maxlength="255" required>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" class="form-control mb-2" id="inputRating" name="rating" placeholder="Rating (1-10)" min="1" max="10" required>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary mb-2" id="btnSubmit">Submit</button>
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <input type="number" class="form-control mb-2" id="inputRating" placeholder="Rating (1-10)" min="0" max="10">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary mb-2" id="btnSubmit">Submit</button>
-                </div>
-            </div>
+            </form>
         </div>
+        {% if messages %}
+        <div class="message-container">
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
         <h5><b>Daftar Ulasan:</b></h5>
         <ul class="list-disc pl-4" id="daftarUlasan">
             {% for item in ulasan %}

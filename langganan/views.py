@@ -2,8 +2,6 @@ from django.shortcuts import render
 from function.general import query_result
 from django.http import HttpResponse
 from django.db import connection
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
 
 
 # Create your views here.
@@ -74,11 +72,6 @@ def process_payment(request):
         dukungan_perangkat = request.POST.get('dukungan_perangkat')
         metode_pembayaran = request.POST.get('metode_pembayaran')
         username = request.COOKIES.get('username')
-        current_timestamp = datetime.now() + timedelta(days=1)
-        start_date = datetime.today()+ timedelta(days=1)
-
-        # Mendapatkan tanggal satu bulan kemudian
-        end_date = start_date + relativedelta(months=1)
 
         check_time_exists = query_result(f"""
                                         SELECT EXISTS (
