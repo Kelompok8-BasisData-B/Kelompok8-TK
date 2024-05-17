@@ -125,8 +125,8 @@
                  <tr>
                      <td> {{ i }} </td>
                      <td>
-                        <a href="{{ i }}" id="link_delete_from_favorite">
-                            <button type="button">Hapus</button>
+                        <a href="{% url 'daftar_favorit:delete_from_favorite' judul_daftar_favorit  j%} " id="link_delete_from_favorite">
+                            <button type="button" class="delete-button">Hapus</button>
                         </a>
                      </td>
                  </tr>

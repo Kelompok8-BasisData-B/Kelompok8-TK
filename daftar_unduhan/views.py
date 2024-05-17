@@ -37,9 +37,12 @@ def hapus_unduhan(request, id):
     
     if logged_in_username:
         with connection.cursor() as cursor:
-            cursor.execute(f"""DELETE FROM "TAYANGAN_TERUNDUH" 
-                               WHERE id_tayangan = '{id}'
-                               AND username = '{logged_in_username}'""")
-            return HttpResponseRedirect(reverse('daftar_unduhan:show_download'))
+            try:
+                cursor.execute(f"""DELETE FROM "TAYANGAN_TERUNDUH" 
+                                WHERE id_tayangan = '{id}'
+                                AND username = '{logged_in_username}'""")
+                return HttpResponseRedirect(reverse('daftar_unduhan:show_download'))
+            except:
+                return JsonResponse({'status': 'error', 'message': 'Failed to delete download'}, status=500)
     else:
         return JsonResponse({'status': 'error', 'message': 'User not authenticated'}, status=401)
