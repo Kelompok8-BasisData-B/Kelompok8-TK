@@ -58,12 +58,12 @@ def show_film_in_daftar_favorit(request, judul):
     else:
         return HttpResponse('User not authenticated', status=401)
 
-def delete_from_favorite(request, judul_daftar_favorit, id):
+def delete_from_favorite(request, judul_daftar_favorit, judul):
     with connection.cursor() as cursor:
         logged_in_username = request.session.get('username')
         cursor.execute(f"""DELETE FROM "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT"
-                           WHERE id_tayangan = '{id}'
-                           AND username = '{logged_in_username}'
+                           WHERE judul = '{judul}'
+                            AND username = '{logged_in_username}'
                            AND TIMESTAMP = (SELECT TIMESTAMP FROM "DAFTAR_FAVORIT" WHERE JUDUL = '{judul_daftar_favorit}' AND USERNAME = '{logged_in_username}')
                            """)
         return HttpResponse('Deleted from favorite', status=200)

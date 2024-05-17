@@ -132,6 +132,7 @@
                     
                     <td> {{ j }} </td>
                     <td>
+                        <a href="{% url 'daftar_favorit:delete_daftar_favorite' i%}">
                             <button type="button" class="delete-button" id="btn-hapus" onclick="return confirm('Are you sure?');">Hapus</button>
                         </a>
                     </td>
