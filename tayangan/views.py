@@ -326,10 +326,10 @@ def add_ulasan(request):
             cursor.execute(f"""
                 INSERT INTO "ULASAN" VALUES ('{id}', '{username}', NOW(), '{rating}', '{deskripsi}');
             """)
-            messages.success(request, 'Ulasan berhasil ditambahkan!')
+            messages.add_message(request, messages.SUCCESS, 'Ulasan berhasil ditambahkan!', extra_tags='ulasan')
         except InternalError as e:
             if 'Username' in str(e):
-                messages.error(request, f"Username {username} sudah memberikan ulasan pada tayangan ini!")
+                messages.add_message(request, messages.ERROR, f"Username {username} sudah memberikan ulasan pada tayangan ini!", extra_tags='ulasan')
         if tipe == 'series':
             return HttpResponseRedirect(f'/tayangan/series/{id}')
         return HttpResponseRedirect(f'/tayangan/film/{id}')
@@ -351,9 +351,9 @@ def add_tonton(request):
             cursor.execute(f"""
                 INSERT INTO "RIWAYAT_NONTON" VALUES ('{id}', '{username}', NOW(), NOW() + {progress} * INTERVAL '1 minute');
             """)
-            messages.success(request, 'Tayangan behasil di tonton!')
+            messages.add_message(request, messages.SUCCESS, 'Tayangan behasil di tonton!', extra_tags='tonton')
         except InternalError as e:
-            messages.error(request, f"Username {username} gagal menonton tayangan ini!")
+            messages.add_message(request, messages.ERROR, 'Tayangan gagal di tonton!', extra_tags='tonton')
         if tipe == 'series':
             subjudul = request.POST['subjudul']
             encoded = quote(subjudul)

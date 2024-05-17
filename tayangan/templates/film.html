@@ -93,7 +93,9 @@
       <div class="message-container">
           <ul class="messages">
               {% for message in messages %}
+              {% if 'tonton' in message.tags %}
               <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endif %}
               {% endfor %}
           </ul>
       </div>
@@ -195,7 +197,9 @@
         <div class="message-container">
             <ul class="messages">
                 {% for message in messages %}
+                {% if 'ulasan' in message.tags %}
                 <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endif %}
                 {% endfor %}
             </ul>
         </div>
