@@ -372,10 +372,14 @@ def unduh_tayangan(request, id):
     username = request.COOKIES.get('username')
     
     if username:
-        current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        current_time = datetime.datetime.now()
+        add_time_gmt_plus_seven = datetime.timedelta(hours=7) 
+        current_time_real = current_time + add_time_gmt_plus_seven
+        current_time_format = current_time_real.strftime('%Y-%m-%d %H:%M:%S')
+        
         with connection.cursor() as cursor:
             cursor.execute(f"""
-                    INSERT INTO "TAYANGAN_TERUNDUH" VALUES ('{id}', '{username}', '{current_time}');
+                    INSERT INTO "TAYANGAN_TERUNDUH" VALUES ('{id}', '{username}', '{current_time_format}');
                 """)
         
         with connection.cursor() as cursor:
