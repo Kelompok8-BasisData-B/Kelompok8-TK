@@ -126,20 +126,58 @@
                 <tr>
                     <td>{{ j }}</td>
                     <td>{{ k }}</td>
-                    <td>
-                        <a href="{% url 'daftar_unduhan:hapus_unduhan' i %}">
-                            <button type="button" class="delete-button">Hapus</button>
-                        </a>
-                    </td>
+                    <form method="get">
+                        {% csrf_token %}
+                        <td>
+                            <!-- <a href="{% url 'daftar_unduhan:hapus_unduhan' i %}"> -->
+                                <button type="button" class="delete-button" id="confirmation" data-toggle="modal" data-target="#messageModal"  data-id="{{i}}">Hapus</button>
+                            </a>
+                        </td>
+                    </form>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    {% if messages %}
+                        {% for message in messages %}
+                        <h1 class="modal-title fs-5" id="messageModalLabelTitle">
+                            {{ message }}
+                        </h1>
+                            {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="modal-body" id="downloadModalBody">
+                    <p>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<script>
     
+<script>
+    function delete_fun() {
+        $('#messageModal').modal('show');
+        // $.ajax({
+        //     type: 'GET',
+        //     url: "download/hapus/" + document.getElementById("confirmation").getAttribute("data-id") + "/",
+        //     success: function (data) {
+        //         $('#messageModal').modal('show');
+        //     }, error: function (data) {
+        //         $('#messageModal').modal('show');
+        //     }
+        // });
+    }
 </script>
 
 </body>

@@ -37,13 +37,17 @@ def hapus_unduhan(request, id):
     logged_in_username = request.session.get('username')
     
     if logged_in_username:
-        with connection.cursor() as cursor:
-            try:
-                cursor.execute(f"""DELETE FROM "TAYANGAN_TERUNDUH" 
-                                WHERE id_tayangan = '{id}'
-                                AND username = '{logged_in_username}'""")
-                return HttpResponseRedirect(reverse('daftar_unduhan:show_download'))
-            except InternalError as e:
-                messages.add_message(request, messages.ERROR, 'Gagal menghapus tayangan dari daftar unduhan')
+                if request.method == 'GET':
+                    try:
+                        with connection.cursor() as cursor:
+                            cursor.execute(f"""DELETE FROM "TAYANGAN_TERUNDUH" 
+                                            WHERE id_tayangan = '{id}'
+                                            AND username = '{logged_in_username}'""")
+                            messages.success(request, 'Tayangan berhasil dihapus dari daftar unduhan.')
+                            return redirect(('daftar_unduhan:show_download'))
+                    except:
+                        messages.error(request, 'Tayangan minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.')
+                        return redirect(('daftar_unduhan:show_download'))
+
     else:
         return JsonResponse({'status': 'error', 'message': 'User not authenticated'}, status=401)

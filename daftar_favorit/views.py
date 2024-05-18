@@ -85,6 +85,5 @@ def delete_daftar_favorite(request, judul):
         cursor.execute(f"""DELETE FROM "DAFTAR_FAVORIT"
                            WHERE judul = '{judul}'
                            AND username = '{logged_in_username}'
-                           ON DELETE CASCADE
                            """)
         return HttpResponse('Deleted from favorite', status=200)
