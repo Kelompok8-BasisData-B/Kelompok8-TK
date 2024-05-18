@@ -133,7 +133,7 @@
                     <td> {{ j }} </td>
                     <td>
                         <a href="{% url 'daftar_favorit:delete_daftar_favorite' i %}">
-                            <button type="button" class="delete-button" id="btn-hapus" onclick="return confirm('Are you sure?');">Hapus</button>
+                            <button type="button" class="delete-button" id="btn-hapus" id="{{ i }}"  onclick="return confirm('Are you sure?');" data-bs-toggle="modal" data-bs-target="#messageModal">Hapus</button>
                         </a>
                     </td>
                 </tr>
@@ -141,9 +141,36 @@
             </tbody>
         </table>
     </div>
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="messageModalLabelTitle"> JUDUL</h1>
+                </div>
+                <div class="modal-body" id="downloadModalBody"></div>
+                    <p>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+
 </div>
   
 <script>
-   
+   var deleteButtons = document.getElementsByClassName('delete-button');
+    for (var i = 0; i < deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener('click', function() {
+            var judul = this.id;
+            var link = this.parentElement.href;
+            var modalTitle = document.getElementById('messageModalLabelTitle');
+            var modalBody = document.getElementById('downloadModalBody');
+            modalTitle.innerHTML = 'Hapus Daftar Favorit';
+            modalBody.innerHTML = 'Menghapus daftar favorit ' + judul;
+        });
+    }
 </script>
 {% endblock content %}

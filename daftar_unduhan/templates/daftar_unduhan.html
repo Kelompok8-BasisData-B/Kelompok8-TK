@@ -58,15 +58,19 @@
     border-radius: 12px;
   }
 
+  .container {
+        margin-top: 5px; /* Adjust this value based on your navbar height */
+    }
+
     /* Handle on html */
     body {
-        display: flex;
+        /* display: flex; */
         justify-content: center;
         align-items: center;
         height: 100vh;
         margin: 0;
-        padding: 0;
         font-family: Arial, sans-serif;
+        padding-top: 86px;
     }
     table, th, td {
         border: 1px solid black;
@@ -134,8 +138,8 @@
                     <td>{{ j }}</td>
                     <td>{{ k }}</td>
                     <td>
-                            <a href="{% url 'daftar_unduhan:hapus_unduhan' i %}">
-                            <button type="button" class="delete-button" id="confirmation" data-toggle="modal" data-target="#messageModal">Hapus</button>
+                            <a href="{% url 'daftar_unduhan:hapus_unduhan' i k %}" id="deleteFromfav">
+                            <button type="button" class="delete-button" id="{{ k }}" data-bs-toggle="modal" data-bs-target="#messageModal">Hapus</button>
                             </a>
                         </td>
 
@@ -150,8 +154,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-
-                        <h1 class="modal-title fs-5" id="messageModalLabelTitle"></h1>
+                        <h1 class="modal-title fs-5" id="messageModalLabelTitle"> JUDUL</h1>
                 </div>
                 <div class="modal-body" id="downloadModalBody"></div>
                     <p>
@@ -165,11 +168,26 @@
 
 </div>
 
-    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
-    $(window).on('load', function() {
-        $('#messageModal').modal('show');
-    });
+    var deleteButtons = document.getElementsByClassName('delete-button');
+    for (var i = 0; i < deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener('click', function() {
+            var waktu = this.getAttribute('id');
+            var waktuDatenya = moment(waktu, 'MMMM D, YYYY, h:mm a');
+            var hoursToSubtract = 24; // Change this to the number of hours you want to subtract
+            var currentTime = moment();
+            currentTime.subtract(hoursToSubtract, 'hours');
+            if (currentTime.isBefore(waktuDatenya)) {
+                document.getElementById('messageModalLabelTitle').innerHTML = 'GAGAL MENGHAPUS TAYANGAN DARI DAFTAR UNDUHAN';
+                document.getElementById('downloadModalBody').innerHTML = 'Tayangan minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.';
+            } else {
+                document.getElementById('messageModalLabelTitle').innerHTML = 'SUKSES MENGHAPUS TAYANGAN DARI DAFTAR UNDUHAN';
+                document.getElementById('downloadModalBody').innerHTML = 'Tayangan berhasil dihapus dari daftar unduhan.';
+            }
+        });
+    }
+
 </script>
 
 </body>

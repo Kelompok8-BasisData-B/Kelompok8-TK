@@ -295,6 +295,7 @@ def show_series(request, id):
         for row in hasil_judul_daftar_favorit:
             list_daftar_favorit.append(row[0])
     
+    
     context = {'series': series[0],
                'pemain': pemain,
                'penulis': penulis,
@@ -339,18 +340,33 @@ def show_episode(request, id, sub_judul):
         for row in hasil_judul_daftar_favorit:
             list_daftar_favorit.append(row[0])
     
-    for i in other_episodes:
-        encoded = quote(i.get('sub_judul'))
-        url = f"{i.get('id_series')}/{encoded}/"
-        i.pop('id_series')
-        i.update({'url': url})
+    if sub_judul in list_daftar_favorit:
+        with connection.cursor() as cursor:
+            cursor.execute(f"""SELECT timestamp
+                            FROM "DAFTAR_FAVORIT"
+                            WHERE username = '{username}' AND judul = '{sub_judul}'
+                            """)
+            timestamp = cursor.fetchall()
+            timestamp_output = timestamp[0][0]
+            print(timestamp_output)
+            with connection.cursor() as cursor:
+                cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}')
+                            """)
+            return HttpResponseRedirect(f'/tayangan/series/{id}')  # Or return any other response as needed
+    else:
+        for i in other_episodes:
+            encoded = quote(i.get('sub_judul'))
+            url = f"{i.get('id_series')}/{encoded}/"
+            i.pop('id_series')
+            i.update({'url': url})
+            
 
-    context = {'episode': episode[0],
-               'other_episodes': other_episodes,
-               'released': released[0],
-               'list_daftar_favorit': list_daftar_favorit}
+        context = {'episode': episode[0],
+                'other_episodes': other_episodes,
+                'released': released[0],
+                'list_daftar_favorit': list_daftar_favorit}
 
-    return render(request, 'episode.html', context)# Or return any other response as needed
+        return render(request, 'episode.html', context)# Or return any other response as needed
 
 def unduh_tayangan(request, id):
     username = request.COOKIES.get('username')
@@ -361,7 +377,17 @@ def unduh_tayangan(request, id):
             cursor.execute(f"""
                     INSERT INTO "TAYANGAN_TERUNDUH" VALUES ('{id}', '{username}', '{current_time}');
                 """)
-            return HttpResponse(status=200)
+        
+        with connection.cursor() as cursor:
+            cursor.execute(f"""SELECT id_tayangan
+                            FROM "FILM"
+                            WHERE id_tayangan = '{id}'
+                            """)
+            hasil_judul_tayangan = cursor.fetchall()
+            if len(hasil_judul_tayangan) == 0:
+                return HttpResponseRedirect(f'/tayangan/series/{id}')
+            else:
+                return HttpResponseRedirect(f'/tayangan/film/{id}')
 
     else:
         return HttpResponseBadRequest('User not authenticated')
@@ -381,26 +407,8 @@ def tambah_ke_daftar_favorit(request, id, judul):
         cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}')
                        """)
         
-    return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
-
-def tambah_ke_daftar_favorit_series(request, id, sub_judul, judul_daftar):
-        username = request.COOKIES.get('username')
-        if username:
-            with connection.cursor() as cursor:
-                cursor.execute(f"""SELECT timestamp
-                                FROM "DAFTAR_FAVORIT"
-                                WHERE username = '{username}' AND judul = '{judul_daftar}'
-                                """)
-                timestamp = cursor.fetchall()
-                print(timestamp, sub_judul)
-                timestamp_output = timestamp[0][0]
-            
-            with connection.cursor() as cursor:
-                cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}')
-                            """)
-            return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
-        else:
-            return JsonResponse({'message': 'User not authenticated'}, status=401)
+    return HttpResponseRedirect(f'/tayangan/film/{id}')
+  # Or return any other response as needed
 
 
 def add_ulasan(request):

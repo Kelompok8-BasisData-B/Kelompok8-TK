@@ -104,12 +104,15 @@
         {% if released.is_released == 1 %}
         <button class="btn btn-primary mb-2" id="btnTonton" onclick="submitProgress()">Tonton</button>
         {% endif %}
+    </div>
+    <h2>
         <a href="{% url 'tayangan:unduh_tayangan' film.id %}">
-            <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal" data-id= "{{ film.id }}">Unduh Tayangan
+            <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal" data-id= "{{ film.id }}">Unduh Tayangan</button>
         </a>
-        </button>
+    </h2>
+    <h2>
         <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button>
-      </div>
+    </h2>
       <p><b>Total View:</b> <span id="totalView">{{ view.count }}</span></p>
       <p><b>Rating Rata-Rata:</b> <span id="rating">{{ rating.avg }}</span></p>
       <p><b>Sinopsis:</b> <span id="sinopsis">{{ film.sinopsis }}</span></p>

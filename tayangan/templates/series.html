@@ -73,12 +73,14 @@
     <div class="row-md-8">
       <h2>Judul: <span id="judul">{{ series.judul }}</span></h2>
       <h2>
-          <a href="{% url 'tayangan:unduh_tayangan' series.id %}">
-              <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal" data-id= "{{ series.id }}">Unduh Tayangan
+          <a href="{% url 'tayangan:unduh_tayangan' series.id %}" >
+              <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal" data-id= "{{ series.id }}">Unduh Tayangan</button>
           </a>
 
       </h2>
-      <!-- <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal" data-judul_tayangan="{{ series.judul }}">Favorit Tayangan</button>  -->
+      <h2>
+            <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal" data-judul_tayangan="{{ series.judul }}">Favorit Tayangan
+      </h2>
       <p><b>Episode:</b></p>
       <ul class="list-disc pl-4" id="episode">
         {% for item in episode %}
@@ -129,7 +131,7 @@
         </div>
     </div>
     
-    <!-- <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
+    <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -146,7 +148,7 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 
     <div class="row-md-4 ulasan">
         <h2 class="title">BAGIAN ULASAN</h2>
