@@ -16,5 +16,5 @@ urlpatterns = [
     path('tayangan/film/<str:id>/<str:judul>/', tambah_ke_daftar_favorit, name='tambah_ke_favorit'),
     path('tayangan/add-ulasan/', add_ulasan, name='add_ulasan'),
     path('tayangan/add-tonton/', add_tonton, name='add_tonton'),
-    path('favorit-series/<str:id>/<str:judul>', tambah_ke_daftar_favorit_series, name='tambah_ke_favorit_series')
+    path('favorit-series/<str:id_series>/<str:judul>', tambah_ke_daftar_favorit_series, name='tambah_ke_favorit_series')
 ]
