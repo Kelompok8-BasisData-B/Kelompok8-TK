@@ -1,13 +1,15 @@
 CREATE OR REPLACE FUNCTION check_delete_procedure()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS 
+$$
 BEGIN
-    IF (NEW.timestamp < NOW() - INTERVAL '1 day') THEN
+    IF (OLD.timestamp > NOW() - INTERVAL '1 DAY') 
+        THEN
         RAISE EXCEPTION 'Tayangan minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.';
-    ELSE
-        RETURN NULL;
     END IF;
+    RETURN OLD;
 END;
-$$ LANGUAGE plpgsql;
+$$ 
+LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER before_delete_check
 BEFORE DELETE ON "TAYANGAN_TERUNDUH"

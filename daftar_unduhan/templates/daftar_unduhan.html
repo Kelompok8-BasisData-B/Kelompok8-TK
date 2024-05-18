@@ -110,6 +110,13 @@
 
 {% include "navbar.html" %}
 <div class="container">
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
         <table id="favoriteTable">
         <thead>
             <tr>
@@ -127,19 +134,42 @@
                     <td>{{ j }}</td>
                     <td>{{ k }}</td>
                     <td>
-                        <a href="{% url 'daftar_unduhan:hapus_unduhan' i %}">
-                            <button type="button" class="delete-button">Hapus</button>
-                        </a>
-                    </td>
+                            <a href="{% url 'daftar_unduhan:hapus_unduhan' i %}">
+                            <button type="button" class="delete-button" id="confirmation" data-toggle="modal" data-target="#messageModal">Hapus</button>
+                            </a>
+                        </td>
+
+                    </a>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                        <h1 class="modal-title fs-5" id="messageModalLabelTitle"></h1>
+                </div>
+                <div class="modal-body" id="downloadModalBody"></div>
+                    <p>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<script>
     
+<script>
+    $(window).on('load', function() {
+        $('#messageModal').modal('show');
+    });
 </script>
 
 </body>
