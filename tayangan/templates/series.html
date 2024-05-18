@@ -199,7 +199,7 @@
             document.getElementById("downloadModalBody").innerHTML = "Selamat! Anda telah berhasil mengunduh " + document.getElementById("judul").innerHTML + " dan akan berlaku hingga " + date.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric' }) + ". Cek informasi selengkapnya pada halaman daftar unduhan.";
         });
     
-        document.getElementById('dropdown-favorite').addEventListener('click', function(e) {
+        document.getElementById('button_add_favorite').addEventListener('click', function() {
             var selected_daftar = e.target.options[e.target.selectedIndex].value;
             var judul_film = document.getElementById('judul').innerHTML;
             var url = 'favorit-series/' + judul_film + '/' + selected_daftar + '/';
