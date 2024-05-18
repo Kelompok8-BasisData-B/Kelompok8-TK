@@ -110,6 +110,13 @@
 
 {% include "navbar.html" %}
 <div class="container">
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
         <table id="favoriteTable">
         <thead>
             <tr>
@@ -133,7 +140,6 @@
                         </td>
 
                     </a>
-                    </form>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -147,14 +153,7 @@
                         <h1 class="modal-title fs-5" id="messageModalLabelTitle">
                         </h1>
                 </div>
-                <div class="modal-body" id="downloadModalBody">
-                    {% if messages %}
-                        {% for message in messages %}
-                        <p>
-                            {{ message }}
-                        </p>
-                            {% endfor %}
-                    {% endif %}
+                <div class="modal-body" id="downloadModalBody"></div>
                     <p>
                     </p>
                 </div>
@@ -168,7 +167,9 @@
 
     
 <script>
-    
+    $(window).on('load', function() {
+        $('#messageModal').modal('show');
+    });
 </script>
 
 </body>

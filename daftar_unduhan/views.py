@@ -42,11 +42,10 @@ def hapus_unduhan(request, id):
                             cursor.execute(f"""DELETE FROM "TAYANGAN_TERUNDUH" 
                                             WHERE id_tayangan = '{id}'
                                             AND username = '{logged_in_username}'""")
-                            messages.success(request, 'Tayangan berhasil dihapus dari daftar unduhan.')
-                            return redirect(('daftar_unduhan:show_download'))
+                            messages.info(request, 'Tayangan berhasil dihapus dari daftar unduhan.')
                     except:
-                        messages.error(request, 'Tayangan minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.')
-                        return redirect(('daftar_unduhan:show_download'))
+                        messages.info(request, 'Tayangan minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.')
+                    return HttpResponseRedirect(f'/daftar-unduhan/download/')
 
     else:
         return JsonResponse({'status': 'error', 'message': 'User not authenticated'}, status=401)
