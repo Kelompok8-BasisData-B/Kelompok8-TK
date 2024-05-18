@@ -113,7 +113,7 @@
          <table id="favoriteTable">
          <thead>
              <tr>
-                 <th class="top-header" colspan="3">{{ judul_daftar_favorit }}</th>
+                 <th class="top-header" colspan="3" id="judul_daftar">{{ judul_daftar_favorit }}</th>
              </tr>
          </thead>
          <thead>
@@ -160,8 +160,9 @@
             var link = this.parentElement.href;
             var modalTitle = document.getElementById('messageModalLabelTitle');
             var modalBody = document.getElementById('downloadModalBody');
+            var namaDaftarFavorit = document.getElementById('judul_daftar').innerHTML;
             modalTitle.innerHTML = 'Hapus dari Daftar Favorit';
-            modalBody.innerHTML = 'Menghapus ' + judul + ' dari daftar favorit';
+            modalBody.innerHTML = 'Menghapus ' + judul + ' dari ' + namaDaftarFavorit;;
         });
     }
 
