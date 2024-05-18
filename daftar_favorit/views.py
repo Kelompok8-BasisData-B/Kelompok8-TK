@@ -38,10 +38,13 @@ def show_film_in_daftar_favorit(request, judul):
                            WHERE df.username = '{logged_in_username}' AND df.judul = '{judul}'
                             """)
             list_judul = cursor.fetchall()
-            timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            current_time = datetime.datetime.now()
+            add_time_gmt_plus_seven = datetime.timedelta(hours=7) 
+            current_time_real = current_time + add_time_gmt_plus_seven
+            current_time_format = current_time_real.strftime('%Y-%m-%d %H:%M:%S')
             if len(list_judul) == 0:
                 cursor.execute(f"""INSERT INTO "DAFTAR_FAVORIT" (username, judul, timestamp)
-                                VALUES ('{logged_in_username}', '{judul}', '{timestamp}')
+                                VALUES ('{logged_in_username}', '{judul}', '{current_time_format}')
                                 """)
                 return redirect(f'/daftar-favorit/fav/')
             else:
