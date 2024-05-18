@@ -126,13 +126,13 @@
                 <tr>
                     <td>{{ j }}</td>
                     <td>{{ k }}</td>
-                    <form method="get">
-                        {% csrf_token %}
-                        <td>
-                            <!-- <a href="{% url 'daftar_unduhan:hapus_unduhan' i %}"> -->
-                                <button type="button" class="delete-button" id="confirmation" data-toggle="modal" data-target="#messageModal"  data-id="{{i}}">Hapus</button>
+                    <td>
+                            <a href="{% url 'daftar_unduhan:hapus_unduhan' i %}">
+                            <button type="button" class="delete-button" id="confirmation" data-toggle="modal" data-target="#messageModal">Hapus</button>
                             </a>
                         </td>
+
+                    </a>
                     </form>
                 </tr>
                 {% endfor %}
@@ -144,15 +144,17 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    {% if messages %}
-                        {% for message in messages %}
                         <h1 class="modal-title fs-5" id="messageModalLabelTitle">
-                            {{ message }}
                         </h1>
-                            {% endfor %}
-                    {% endif %}
                 </div>
                 <div class="modal-body" id="downloadModalBody">
+                    {% if messages %}
+                        {% for message in messages %}
+                        <p>
+                            {{ message }}
+                        </p>
+                            {% endfor %}
+                    {% endif %}
                     <p>
                     </p>
                 </div>
@@ -166,18 +168,7 @@
 
     
 <script>
-    function delete_fun() {
-        $('#messageModal').modal('show');
-        // $.ajax({
-        //     type: 'GET',
-        //     url: "download/hapus/" + document.getElementById("confirmation").getAttribute("data-id") + "/",
-        //     success: function (data) {
-        //         $('#messageModal').modal('show');
-        //     }, error: function (data) {
-        //         $('#messageModal').modal('show');
-        //     }
-        // });
-    }
+    
 </script>
 
 </body>

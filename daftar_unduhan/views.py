@@ -37,7 +37,6 @@ def hapus_unduhan(request, id):
     logged_in_username = request.session.get('username')
     
     if logged_in_username:
-                if request.method == 'GET':
                     try:
                         with connection.cursor() as cursor:
                             cursor.execute(f"""DELETE FROM "TAYANGAN_TERUNDUH" 
