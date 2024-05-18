@@ -72,10 +72,13 @@
   <div class="col">
     <div class="row-md-8">
       <h2>Judul: <span id="judul">{{ series.judul }}</span></h2>
-      <a href="{% url 'tayangan:unduh_tayangan' series.id %}">
-          <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal" data-id= "{{ series.id }}">Unduh Tayangan
-      </a>
-      <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal">Favorit Tayangan</button> 
+      <h2>
+          <a href="{% url 'tayangan:unduh_tayangan' series.id %}">
+              <button class="btn btn-primary mb-2" id="btnUnduh" data-bs-toggle="modal" data-bs-target="#downloadModal" data-id= "{{ series.id }}">Unduh Tayangan
+          </a>
+
+      </h2>
+      <!-- <button class="btn btn-primary mb-2" id="btnFavorit" data-bs-toggle="modal" data-bs-target="#favoriteListModal" data-judul_tayangan="{{ series.judul }}">Favorit Tayangan</button>  -->
       <p><b>Episode:</b></p>
       <ul class="list-disc pl-4" id="episode">
         {% for item in episode %}
@@ -126,7 +129,7 @@
         </div>
     </div>
     
-    <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -143,7 +146,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="row-md-4 ulasan">
         <h2 class="title">BAGIAN ULASAN</h2>
@@ -188,11 +191,6 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        document.getElementById("btnTonton").addEventListener("click", function () {
-            console.log("Menonton film...");
-        });
-    
         document.getElementById("btnUnduh").addEventListener("click", function () {
             var date = new Date();
             date.setDate(date.getDate() + 7);
@@ -200,10 +198,10 @@
         });
     
         document.getElementById('button_add_favorite').addEventListener('click', function() {
-            var selected_daftar = e.target.options[e.target.selectedIndex].value;
-            var judul_film = document.getElementById('judul').innerHTML;
-            var url = 'favorit-series/' + judul_film + '/' + selected_daftar + '/';
-            document.getElementById('link_add_favorite').setAttribute('href', url);
+            var dropdown = document.getElementById('dropdown-favorite');
+            var selectedJudul = dropdown.options[dropdown.selectedIndex].value;      
+            var url = encodeURIComponent(selectedJudul) + "/";
+            document.getElementById('link_add_favorite').setAttribute('href', url);     
         });
     
         document.getElementById("btnSubmit").addEventListener("click", function() {
@@ -215,6 +213,5 @@
     
             console.log("Rating: " + inputRating);
         });
-    });
 </script>
 {% endblock content %}

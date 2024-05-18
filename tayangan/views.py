@@ -328,6 +328,17 @@ def show_episode(request, id, sub_judul):
                                 FROM "EPISODE"
                                 WHERE id_series = '{id}' AND sub_judul = '{sub_judul}';""")
     
+    username = request.COOKIES.get('username')
+    with connection.cursor() as cursor:
+        cursor.execute(f"""SELECT judul
+                           FROM "DAFTAR_FAVORIT"
+                           WHERE username = '{username}'
+                           """)
+        hasil_judul_daftar_favorit = cursor.fetchall()
+        list_daftar_favorit = []
+        for row in hasil_judul_daftar_favorit:
+            list_daftar_favorit.append(row[0])
+    
     for i in other_episodes:
         encoded = quote(i.get('sub_judul'))
         url = f"{i.get('id_series')}/{encoded}/"
@@ -336,7 +347,8 @@ def show_episode(request, id, sub_judul):
 
     context = {'episode': episode[0],
                'other_episodes': other_episodes,
-               'released': released[0]}
+               'released': released[0],
+               'list_daftar_favorit': list_daftar_favorit}
 
     return render(request, 'episode.html', context)# Or return any other response as needed
 
@@ -371,20 +383,20 @@ def tambah_ke_daftar_favorit(request, id, judul):
         
     return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
 
-def tambah_ke_daftar_favorit_series(request, id_series, judul):
+def tambah_ke_daftar_favorit_series(request, id, sub_judul, judul_daftar):
         username = request.COOKIES.get('username')
         if username:
             with connection.cursor() as cursor:
                 cursor.execute(f"""SELECT timestamp
                                 FROM "DAFTAR_FAVORIT"
-                                WHERE username = '{username}' AND judul = '{judul}'
+                                WHERE username = '{username}' AND judul = '{judul_daftar}'
                                 """)
                 timestamp = cursor.fetchall()
-                print(timestamp)
+                print(timestamp, sub_judul)
                 timestamp_output = timestamp[0][0]
             
             with connection.cursor() as cursor:
-                cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id_series}', '{timestamp_output}', '{username}')
+                cursor.execute(f"""INSERT INTO "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" VALUES ('{id}', '{timestamp_output}', '{username}')
                             """)
             return JsonResponse({'message': 'Successfully added to favorites'})  # Or return any other response as needed
         else:
