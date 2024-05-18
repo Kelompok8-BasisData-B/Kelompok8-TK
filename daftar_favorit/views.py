@@ -1,5 +1,5 @@
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect, render
 from django.db import connection
 
 # Create your views here.
@@ -77,7 +77,7 @@ def delete_from_favorite(request, judul_daftar, id):
                             WHERE d.judul = '{judul_daftar}' AND u.username = '{logged_in_username}'
                             )
                            """)
-        return HttpResponseRedirect(f'/fav/{judul_daftar}/id')
+        return redirect(f'/daftar-favorit/fav/{judul_daftar}')
     
 def delete_daftar_favorite(request, judul):
     with connection.cursor() as cursor:
@@ -87,3 +87,5 @@ def delete_daftar_favorite(request, judul):
                            AND username = '{logged_in_username}'
                            """)
         return HttpResponse('Deleted from favorite', status=200)
+
+
