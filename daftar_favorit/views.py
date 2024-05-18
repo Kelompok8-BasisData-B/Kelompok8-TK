@@ -1,3 +1,4 @@
+import datetime
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.db import connection
@@ -32,28 +33,42 @@ def show_film_in_daftar_favorit(request, judul):
     if logged_in_username:
         with connection.cursor() as cursor:
             cursor.execute(f"""
-                           SELECT t.judul, t.id
-                           FROM "TAYANGAN" t
-                           JOIN
-                            "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" tmf ON t.id = tmf.id_tayangan
-                            JOIN
-                            "DAFTAR_FAVORIT" df ON tmf.timestamp = df.timestamp AND tmf.username = df.username
-                            WHERE
-                            df.username = '{logged_in_username}' AND df.judul = '{judul}'
-                           """)
-            list_tayangan = cursor.fetchall()
-            print(list_tayangan)
-            judul_film = []
-            id_film = []
-            for row in list_tayangan:
-                judul_film.append(row[0])
-                id_film.append(row[1])
-            detail_tayangan_di_daftar = zip(judul_film, id_film)
-            context = {
-                'judul_daftar_favorit': judul,
-                'detail_tayangan_di_daftar': detail_tayangan_di_daftar
-            }
-            return render(request, 'detail_daftar_favorit.html', context)
+                           SELECT df.judul
+                           FROM "DAFTAR_FAVORIT" df
+                           WHERE df.username = '{logged_in_username}' AND df.judul = '{judul}'
+                            """)
+            list_judul = cursor.fetchall()
+            timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            if len(list_judul) == 0:
+                cursor.execute(f"""INSERT INTO "DAFTAR_FAVORIT" (username, judul, timestamp)
+                                VALUES ('{logged_in_username}', '{judul}', '{timestamp}')
+                                """)
+                return redirect(f'/daftar-favorit/fav/')
+            else:
+                with connection.cursor() as cursor:
+                    cursor.execute(f"""
+                                SELECT t.judul, t.id
+                                FROM "TAYANGAN" t
+                                JOIN
+                                    "TAYANGAN_MEMILIKI_DAFTAR_FAVORIT" tmf ON t.id = tmf.id_tayangan
+                                    JOIN
+                                    "DAFTAR_FAVORIT" df ON tmf.timestamp = df.timestamp AND tmf.username = df.username
+                                    WHERE
+                                    df.username = '{logged_in_username}' AND df.judul = '{judul}'
+                                """)
+                    list_tayangan = cursor.fetchall()
+                    print(list_tayangan)
+                    judul_film = []
+                    id_film = []
+                    for row in list_tayangan:
+                        judul_film.append(row[0])
+                        id_film.append(row[1])
+                    detail_tayangan_di_daftar = zip(judul_film, id_film)
+                    context = {
+                        'judul_daftar_favorit': judul,
+                        'detail_tayangan_di_daftar': detail_tayangan_di_daftar
+                    }
+                    return render(request, 'detail_daftar_favorit.html', context)
 
     else:
         return HttpResponse('User not authenticated', status=401)

@@ -110,6 +110,7 @@
 
 {% include "navbar.html" %}
 <div class="container">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah Daftar Favorit</button>
         <table id="favoriteTable">
         <thead>
             <tr>
@@ -125,7 +126,7 @@
                 {% for i, j in detail_daftar_favorit %}
                 <tr>
                     <td> 
-                    <a href="{% url 'daftar_favorit:show_film_in_daftar_favorite' i %}">
+                    <a href="{% url 'daftar_favorit:show_film_in_daftar_favorite' i %}" id="trigger_button">
                         {{ i }} 
                     </a>
                     </td>
@@ -133,7 +134,7 @@
                     <td> {{ j }} </td>
                     <td>
                         <a href="{% url 'daftar_favorit:delete_daftar_favorite' i %}">
-                            <button type="button" class="delete-button" id="btn-hapus" id="{{ i }}"  onclick="return confirm('Are you sure?');" data-bs-toggle="modal" data-bs-target="#messageModal">Hapus</button>
+                            <button type="button" class="delete-button" id="btn-hapus" data-nama="{{ i }}"  onclick="return confirm('Are you sure?');" data-bs-toggle="modal" data-bs-target="#messageModal">Hapus</button>
                         </a>
                     </td>
                 </tr>
@@ -158,13 +159,39 @@
     </div>
  </div>
 
+ <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Daftar Favorit</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form" onsubmit="return false;">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="col-form-label">Judul Daftar Favorit: </label>
+                        <input type="text" class="form-control" id="name" name="name"></input>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="" id="tambah_daftar">
+                    <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Tambah judul</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
   
 <script>
    var deleteButtons = document.getElementsByClassName('delete-button');
     for (var i = 0; i < deleteButtons.length; i++) {
         deleteButtons[i].addEventListener('click', function() {
-            var judul = this.id;
+            var judul = this.getAttribute('data-nama');
             var link = this.parentElement.href;
             var modalTitle = document.getElementById('messageModalLabelTitle');
             var modalBody = document.getElementById('downloadModalBody');
@@ -172,5 +199,12 @@
             modalBody.innerHTML = 'Menghapus daftar favorit ' + judul;
         });
     }
+
+    document.getElementById("button_add").addEventListener("click", function () {
+            var judul_daftarnya = document.getElementById("name").value;
+            var url = encodeURIComponent(judul_daftarnya) + "/";
+            document.getElementById('tambah_daftar').setAttribute('href', url);
+        });
+
 </script>
 {% endblock content %}
