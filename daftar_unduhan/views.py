@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
-from django.db import DatabaseError, InternalError, connection
+from django.db import DatabaseError, Error, InternalError, connection
 from django.urls import reverse
 
 # Create your views here.
@@ -33,7 +33,7 @@ def show_download(request):
         }
     return render(request, 'daftar_unduhan.html', context)
 
-def hapus_unduhan(request, id):
+def hapus_unduhan(request, id, timestamp):
     logged_in_username = request.session.get('username')
     
     if logged_in_username:
@@ -41,11 +41,15 @@ def hapus_unduhan(request, id):
                         with connection.cursor() as cursor:
                             cursor.execute(f"""DELETE FROM "TAYANGAN_TERUNDUH" 
                                             WHERE id_tayangan = '{id}'
-                                            AND username = '{logged_in_username}'""")
+                                            AND username = '{logged_in_username}' AND timestamp = '{timestamp}'
+                                            """)
                             messages.info(request, 'Tayangan berhasil dihapus dari daftar unduhan.')
-                    except:
+                            return HttpResponseRedirect(f'/daftar-unduhan/download/')
+
+                    except Error as e:
                         messages.info(request, 'Tayangan minimal harus berada di daftar unduhan selama 1 hari agar bisa dihapus.')
-                    return HttpResponseRedirect(f'/daftar-unduhan/download/')
+                        return HttpResponseRedirect(f'/daftar-unduhan/download/')
+
 
     else:
         return JsonResponse({'status': 'error', 'message': 'User not authenticated'}, status=401)

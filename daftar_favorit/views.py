@@ -86,6 +86,6 @@ def delete_daftar_favorite(request, judul):
                            WHERE judul = '{judul}'
                            AND username = '{logged_in_username}'
                            """)
-        return HttpResponse('Deleted from favorite', status=200)
+        return redirect(f'/daftar-favorit/fav/')
 
 
